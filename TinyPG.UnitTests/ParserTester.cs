@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TinyPG.Compiler;
+using System.IO;
 
 namespace TinyPG.UnitTests
 {
@@ -14,13 +15,18 @@ namespace TinyPG.UnitTests
     public class ParserTester
     {
         // TODO: set the correct paths to be able to run the unittests succesfully
-        private const string TEMPLATEPATH = @"D:\MyProjects\Net\TinyPG v1.3\TinyPG\Templates\C#\";
-        private const string TEMPLATEPATH_VB = @"D:\MyProjects\Net\TinyPG v1.3\TinyPG\Templates\VB\";
-        private const string OUTPUTPATH = @"D:\MyProjects\Net\TinyPG v1.3\TinyPG.UnitTests\";
-        private const string TESTFILESPATH = @"D:\MyProjects\Net\TinyPG v1.3\TinyPG.UnitTests\Testfiles\";
+        private const string SOLUTIONPATH = @"..\..\..\"; // We are in \bin\Debug
+        private const string TEMPLATEPATH = SOLUTIONPATH + @"\TinyPG\Templates\C#\";
+        private const string TEMPLATEPATH_VB = SOLUTIONPATH + @"\TinyPG\Templates\VB\";
+        private const string OUTPUTPATH = SOLUTIONPATH + @"\TinyPG.UnitTests\";
+        private const string TESTFILESPATH = SOLUTIONPATH + @"\TinyPG.UnitTests\Testfiles\";
 
         public ParserTester()
         {
+            System.Diagnostics.Debug.WriteLine(System.IO.Path.GetFullPath(SOLUTIONPATH));
+            System.Diagnostics.Debug.WriteLine(System.IO.Path.GetFullPath(TEMPLATEPATH));
+            System.Diagnostics.Debug.WriteLine(System.IO.Path.GetFullPath(OUTPUTPATH));
+            System.Diagnostics.Debug.WriteLine(System.IO.Path.GetFullPath(TESTFILESPATH));
             //
             // TODO: Add constructor logic here
             //
@@ -79,8 +85,8 @@ namespace TinyPG.UnitTests
         [TestMethod]
         public void SimpleExpression1_Test()
         {
-            
-            GrammarTree GT = LoadGrammar(TESTFILESPATH + @"simple expression1.tpg");
+            var filename = Path.Combine(TESTFILESPATH, "simple expression1.tpg");            
+            GrammarTree GT = LoadGrammar(filename);
             Grammar G = (Grammar) GT.Eval();
 
 

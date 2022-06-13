@@ -214,10 +214,10 @@ namespace TinyPG.Compiler
         {
             string folder = AppDomain.CurrentDomain.BaseDirectory;
             string pathout = Directives["TinyPG"]["TemplatePath"];
-            if (Path.IsPathRooted(pathout))
+            //if (Path.IsPathRooted(pathout))
                 folder = Path.GetFullPath(pathout);
-            else
-                folder = Path.GetFullPath(folder + pathout);
+            //else
+            //    folder = Path.GetFullPath(folder + pathout);
 
 
             DirectoryInfo dir = new DirectoryInfo(folder + @"\");
