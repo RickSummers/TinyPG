@@ -12,7 +12,7 @@ namespace TinyPG.CodeGenerators.CSharp
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug)
+        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
         {
             if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
                 return null;
@@ -61,6 +61,9 @@ namespace TinyPG.CodeGenerators.CSharp
 
             generatedtext = generatedtext.Replace(@"<%HightlightTokens%>", tokens.ToString());
             generatedtext = generatedtext.Replace(@"<%RtfColorPalette%>", colors.ToString());
+            generatedtext = generatedtext.Replace(@"<%?%>", NullableContext ? "?" : "");
+            generatedtext = generatedtext.Replace(@"<%!%>", NullableContext ? "!" : "");
+            generatedtext = generatedtext.Replace(@"<%NullableContext%>", NullableContext ? "#nullable enable" : "");
 
             if (Debug)
             {

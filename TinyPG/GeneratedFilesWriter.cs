@@ -23,6 +23,7 @@ namespace TinyPG
             ICodeGenerator generator;
 
             string language = grammar.Directives["TinyPG"]["Language"];
+            bool nullableContext = (grammar.Directives["TinyPG"]["NullableContext"] == "enable");
             foreach (Directive d in grammar.Directives)
             {
                 generator = CodeGeneratorFactory.CreateGenerator(d.Name, language);
@@ -36,7 +37,7 @@ namespace TinyPG
                 {
                     File.WriteAllText(
                         Path.Combine(grammar.GetOutputPath(), generator.FileName),
-                        generator.Generate(grammar, debug));
+                        generator.Generate(grammar, debug, nullableContext));
                 }
             }
 

@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
-//#nullable disable
+<%NullableContext%>
 
 namespace <%Namespace%>
 {
@@ -14,22 +14,22 @@ namespace <%Namespace%>
 
     public partial class Scanner
     {
-        public string Input;
+        public string<%?%> Input;
         public int StartPos = 0;
         public int EndPos = 0;
-        public string CurrentFile;
+        public string<%?%> CurrentFile;
         public int CurrentLine;
         public int CurrentColumn;
         public int CurrentPosition;
         public List<Token> Skipped; // tokens that were skipped
         public Dictionary<TokenType, Regex> Patterns;
 
-        private Token LookAheadToken;
+        private Token<%?%> LookAheadToken;
         private List<TokenType> Tokens;
         private List<TokenType> SkipList; // tokens to be skipped
-//#pragma warning disable CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
+#pragma warning disable CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
         private readonly TokenType FileAndLine;
-//#pragma warning restore CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
+#pragma warning restore CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
 
         public Scanner()
         {
@@ -79,7 +79,7 @@ namespace <%Namespace%>
             LookAheadToken = null; // reset lookahead token, so scanning will continue
             StartPos = tok.EndPos;
             EndPos = tok.EndPos; // set the tokenizer to the new scan position
-            CurrentLine = tok.Line + (tok.Text.Length - tok.Text.Replace("\n", "").Length);
+            CurrentLine = tok.Line + (tok.Text<%!%>.Length - tok.Text<%!%>.Replace("\n", "").Length);
             CurrentFile = tok.File;
             return tok;
         }
@@ -94,9 +94,9 @@ namespace <%Namespace%>
             int startpos = StartPos;
             int endpos = EndPos;
             int currentline = CurrentLine;
-            string currentFile = CurrentFile;
-            Token tok = null;
-            List<TokenType> scantokens;
+            string<%?%> currentFile = CurrentFile;
+            Token<%?%> tok = null;
+            List<TokenType><%?%> scantokens;
 
 
             // this prevents double scanning and matching
@@ -119,7 +119,7 @@ namespace <%Namespace%>
 
                 int len = -1;
                 TokenType index = (TokenType)int.MaxValue;
-                string input = Input.Substring(startpos);
+                string input = Input<%!%>.Substring(startpos);
 
                 tok = new Token(startpos, endpos);
 
@@ -158,7 +158,7 @@ namespace <%Namespace%>
                 {
                     startpos = tok.EndPos;
                     endpos = tok.EndPos;
-                    currentline = tok.Line + (tok.Text.Length - tok.Text.Replace("\n", "").Length);
+                    currentline = tok.Line + (tok.Text<%!%>.Length - tok.Text<%!%>.Replace("\n", "").Length);
                     currentFile = tok.File;
                     Skipped.Add(tok);
                 }
@@ -173,7 +173,7 @@ namespace <%Namespace%>
                 // alter the file and line number.
                 if (tok.Type == FileAndLine)
                 {
-                    var match = Patterns[tok.Type].Match(tok.Text);
+                    var match = Patterns[tok.Type].Match(tok.Text<%!%>);
                     var fileMatch = match.Groups["File"];
                     if (fileMatch.Success)
                         currentFile = fileMatch.Value.Replace("\\\\", "\\");
@@ -200,18 +200,18 @@ namespace <%Namespace%>
 
     public class Token<%IToken%>
     {
-        private string file;
+        private string<%?%> file;
         private int line;
         private int column;
         private int startpos;
         private int endpos;
-        private string text;
-        private object value;
+        private string<%?%> text;
+        private object<%?%> value;
 
         // contains all prior skipped symbols
-        private List<Token> skipped;
+        private List<Token><%?%> skipped;
 
-        public string File { 
+        public string<%?%> File { 
             get { return file; } 
             set { file = value; }
         }
@@ -240,16 +240,16 @@ namespace <%Namespace%>
             set { endpos = value; }
         }
 
-        public string Text { 
+        public string<%?%> Text { 
             get { return text;} 
             set { text = value; }
         }
 
-        public List<Token> Skipped { 
+        public List<Token><%?%> Skipped { 
             get { return skipped;} 
             set { skipped = value; }
         }
-        public object Value { 
+        public object<%?%> Value { 
             get { return value;} 
             set { this.value = value; }
         }

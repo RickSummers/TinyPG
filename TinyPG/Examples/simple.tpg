@@ -5,7 +5,7 @@
 //@TinyPG - a Tiny Parser Generator v1.3
 //Copyright © Herre Kuijpers 2008-2010
 //Simple expression calculator
-<% @TinyPG Language="C#" OutputPath=".\" Namespace="Generated" Nullable="enabled" %>
+<% @TinyPG Language="C#" OutputPath="C:\Github\WIP\Simple\Simple\Generated\" Namespace="Generated" NullableContext="enable" %>
 
 // include text highlighting as part of the input window
 <% @TextHighlighter Generate="true" %>
@@ -57,7 +57,9 @@ EOF			-> @"^$";
 [Skip] WHITESPACE 	-> @"\s+";
 
 
-Start -> (Expression)? EOF;
+Start -> (Statements)? EOF;
+
+Statements -> Expression (Expression)*;
 
 //expressions
 Function			-> FUNCTION BRACKETOPEN Params? BRACKETCLOSE;

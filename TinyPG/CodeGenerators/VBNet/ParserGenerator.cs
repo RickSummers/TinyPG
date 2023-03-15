@@ -11,7 +11,7 @@ namespace TinyPG.CodeGenerators.VBNet
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug)
+        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
         {
             if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
                 return null;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-//#nullable disable
+<%NullableContext%>
 
 namespace <%Namespace%>
 {
@@ -18,21 +18,21 @@ namespace <%Namespace%>
     [Serializable]
     public class ParseError<%ParseError%>
     {
-        private string file;
-        private string message;
+        private string<%?%> file;
+        private string<%?%> message;
         private int code;
         private int line;
         private int col;
         private int pos;
         private int length;
 
-        public string File { get { return file; } }
+        public string<%?%> File { get { return file; } }
         public int Code { get { return code; } }
         public int Line { get { return line; } }
         public int Column { get { return col; } }
         public int Position { get { return pos; } }
         public int Length { get { return length; } }
-        public string Message { get { return message; } }
+        public string<%?%> Message { get { return message; } }
 
         // just for the sake of serialization
         public ParseError()
@@ -43,7 +43,7 @@ namespace <%Namespace%>
         {
         }
 
-        public ParseError(string message, int code, Token token) : this(message, code, token.File, token.Line, token.Column, token.StartPos, token.Length)
+        public ParseError(string message, int code, Token token) : this(message, code, token<%!%>.File<%!%>, token<%!%>.Line, token<%!%>.Column, token<%!%>.StartPos, token<%!%>.Length)
         {
         }
 
@@ -69,7 +69,7 @@ namespace <%Namespace%>
     {
         public ParseErrors Errors;
 
-        public List<Token> Skipped;
+        public List<Token><%?%> Skipped;
 
         public ParseTree() : base(new Token(), "ParseTree")
         {
@@ -103,7 +103,7 @@ namespace <%Namespace%>
         /// </summary>
         /// <param name="paramlist">additional optional input parameters</param>
         /// <returns>the output of the evaluation function</returns>
-        public object Eval(params object[] paramlist)
+        public object<%?%> Eval(params object[] paramlist)
         {
             return Nodes[0].Eval(this, paramlist);
         }
@@ -119,7 +119,7 @@ namespace <%Namespace%>
         public List<ParseNode> Nodes { get {return nodes;} }
         <%INodesGet%>
         [XmlIgnore] // avoid circular references when serializing
-        public ParseNode Parent;
+        public ParseNode<%?%> Parent;
         public Token Token; // the token/rule
 
         [XmlIgnore] // skip redundant text (is part of Token)
@@ -142,14 +142,14 @@ namespace <%Namespace%>
             this.nodes = new List<ParseNode>();
         }
 
-        protected object GetValue(ParseTree tree, TokenType type, int index)
+        protected object<%?%> GetValue(ParseTree tree, TokenType type, int index)
         {
             return GetValue(tree, type, ref index);
         }
 
-        protected object GetValue(ParseTree tree, TokenType type, ref int index)
+        protected object<%?%> GetValue(ParseTree tree, TokenType type, ref int index)
         {
-            object o = null;
+            object<%?%> o = null;
             if (index < 0) return o;
 
             // left to right
@@ -174,9 +174,9 @@ namespace <%Namespace%>
         /// <param name="tree">the parsetree itself</param>
         /// <param name="paramlist">optional input parameters</param>
         /// <returns>a partial result of the evaluation</returns>
-        internal object Eval(ParseTree tree, params object[] paramlist)
+        internal object<%?%> Eval(ParseTree tree, params object[] paramlist)
         {
-            object Value = null;
+            object<%?%> Value = null;
 
             switch (Token.Type)
             {

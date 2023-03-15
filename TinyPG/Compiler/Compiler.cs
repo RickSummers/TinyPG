@@ -86,6 +86,7 @@ namespace TinyPG.Compiler
         private void BuildCode()
         {
             string language = Grammar.Directives["TinyPG"]["Language"];
+            bool nullableContext = (Grammar.Directives["TinyPG"]["NullableContext"] == "enable");
             CodeDom.CompilerResults Result;
             CodeDom.CodeDomProvider provider = CodeGeneratorFactory.CreateCodeDomProvider(language);
             System.CodeDom.Compiler.CompilerParameters compilerparams = new System.CodeDom.Compiler.CompilerParameters();
@@ -111,7 +112,7 @@ namespace TinyPG.Compiler
                     generator.FileName = d["FileName"];
 
                 if (generator != null && d["Generate"].ToLower() == "true")
-                    sources.Add(generator.Generate(Grammar, true));
+                    sources.Add(generator.Generate(Grammar, true, nullableContext));
             }
 
             if (sources.Count > 0)

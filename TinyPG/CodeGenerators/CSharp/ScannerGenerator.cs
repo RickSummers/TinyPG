@@ -12,7 +12,7 @@ namespace TinyPG.CodeGenerators.CSharp
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug)
+        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
         {
             if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
                 return null;
@@ -70,6 +70,9 @@ namespace TinyPG.CodeGenerators.CSharp
             scanner = scanner.Replace(@"<%SkipList%>", skiplist.ToString());
             scanner = scanner.Replace(@"<%RegExps%>", regexps.ToString());
             scanner = scanner.Replace(@"<%TokenType%>", tokentype.ToString());
+            scanner = scanner.Replace(@"<%?%>", NullableContext ? "?" : "");
+            scanner = scanner.Replace(@"<%!%>", NullableContext ? "!" : "");
+            scanner = scanner.Replace(@"<%NullableContext%>", NullableContext ? "#nullable enable" : "");
 
             if (Debug)
             {

@@ -185,7 +185,7 @@ namespace TinyPG.Compiler
 
             directive[key] = value;
 
-            List<string> names = new List<string>(new string[] { "Namespace", "OutputPath", "TemplatePath", });
+            List<string> names = new List<string>(new string[] { "Namespace", "OutputPath", "TemplatePath", "NullableContext"});
             List<string> languages = new List<string>(new string[] { "c#", "cs", "csharp", "vb", "vb.net", "vbnet", "visualbasic" });
             switch (directive.Name)
             {
@@ -194,6 +194,7 @@ namespace TinyPG.Compiler
                     names.Add("OutputPath");
                     names.Add("TemplatePath");
                     names.Add("Language");
+                    names.Add("NullableContext");
 
                     if (key == "TemplatePath")
                         if (grammer.GetTemplatePath() == null)

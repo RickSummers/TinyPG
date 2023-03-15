@@ -66,7 +66,7 @@ namespace Generated
                 || tok.Type == TokenType.NOT
                 || tok.Type == TokenType.ASSIGN)
             {
-                ParseExpression(node); // NonTerminal Rule: Expression
+                ParseStatements(node); // NonTerminal Rule: Statements
             }
 
              // Concat Rule
@@ -81,6 +81,39 @@ namespace Generated
 
             parent.Token.UpdateRange(node.Token);
         } // NonTerminalSymbol: Start
+
+        private void ParseStatements(ParseNode parent) // NonTerminalSymbol: Statements
+        {
+            Token tok;
+            ParseNode n;
+            ParseNode node = parent.CreateNode(scanner.GetToken(TokenType.Statements), "Statements");
+            parent.Nodes.Add(node);
+
+
+             // Concat Rule
+            ParseExpression(node); // NonTerminal Rule: Expression
+
+             // Concat Rule
+            tok = scanner.LookAhead(TokenType.FUNCTION, TokenType.VARIABLE, TokenType.BOOLEANLITERAL, TokenType.DECIMALINTEGERLITERAL, TokenType.HEXINTEGERLITERAL, TokenType.REALLITERAL, TokenType.STRINGLITERAL, TokenType.BRACKETOPEN, TokenType.PLUS, TokenType.MINUS, TokenType.NOT, TokenType.ASSIGN); // ZeroOrMore Rule
+            while (tok.Type == TokenType.FUNCTION
+                || tok.Type == TokenType.VARIABLE
+                || tok.Type == TokenType.BOOLEANLITERAL
+                || tok.Type == TokenType.DECIMALINTEGERLITERAL
+                || tok.Type == TokenType.HEXINTEGERLITERAL
+                || tok.Type == TokenType.REALLITERAL
+                || tok.Type == TokenType.STRINGLITERAL
+                || tok.Type == TokenType.BRACKETOPEN
+                || tok.Type == TokenType.PLUS
+                || tok.Type == TokenType.MINUS
+                || tok.Type == TokenType.NOT
+                || tok.Type == TokenType.ASSIGN)
+            {
+                ParseExpression(node); // NonTerminal Rule: Expression
+            tok = scanner.LookAhead(TokenType.FUNCTION, TokenType.VARIABLE, TokenType.BOOLEANLITERAL, TokenType.DECIMALINTEGERLITERAL, TokenType.HEXINTEGERLITERAL, TokenType.REALLITERAL, TokenType.STRINGLITERAL, TokenType.BRACKETOPEN, TokenType.PLUS, TokenType.MINUS, TokenType.NOT, TokenType.ASSIGN); // ZeroOrMore Rule
+            }
+
+            parent.Token.UpdateRange(node.Token);
+        } // NonTerminalSymbol: Statements
 
         private void ParseFunction(ParseNode parent) // NonTerminalSymbol: Function
         {

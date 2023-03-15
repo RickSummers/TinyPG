@@ -12,7 +12,7 @@ namespace TinyPG.CodeGenerators.CSharp
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug)
+        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
         {
             if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
                 return null;
@@ -31,7 +31,8 @@ namespace TinyPG.CodeGenerators.CSharp
                 //evalsymbols.AppendLine("                Value = Token.Text;");
                 evalsymbols.AppendLine("                    break;");
 
-                evalmethods.AppendLine("        protected virtual object Eval" + s.Name + "(ParseTree tree, params object[] paramlist)");
+                var q = NullableContext ? "?" : "";
+                evalmethods.AppendLine("        protected virtual object" + q + " Eval" + s.Name + "(ParseTree tree, params object[] paramlist)");
                 evalmethods.AppendLine("        {");
                 if (s.CodeBlock != null)
                 {
@@ -77,6 +78,9 @@ namespace TinyPG.CodeGenerators.CSharp
 
             parsetree = parsetree.Replace(@"<%EvalSymbols%>", evalsymbols.ToString());
             parsetree = parsetree.Replace(@"<%VirtualEvalMethods%>", evalmethods.ToString());
+            parsetree = parsetree.Replace(@"<%?%>", NullableContext ? "?" : "");
+            parsetree = parsetree.Replace(@"<%!%>", NullableContext ? "!" : "");
+            parsetree = parsetree.Replace(@"<%NullableContext%>", NullableContext ? "#nullable enable" : "");
 
             return parsetree;
         }

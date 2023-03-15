@@ -183,6 +183,9 @@ namespace Generated
                 case TokenType.Start:
                     Value = EvalStart(tree, paramlist);
                     break;
+                case TokenType.Statements:
+                    Value = EvalStatements(tree, paramlist);
+                    break;
                 case TokenType.Function:
                     Value = EvalFunction(tree, paramlist);
                     break;
@@ -254,6 +257,13 @@ namespace Generated
         protected virtual object EvalStart(ParseTree tree, params object[] paramlist)
         {
             return "Could not interpret input; no semantics implemented.";
+        }
+
+        protected virtual object EvalStatements(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
         }
 
         protected virtual object EvalFunction(ParseTree tree, params object[] paramlist)

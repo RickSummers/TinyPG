@@ -6,7 +6,7 @@ using System.Collections.Generic;
 // Disable unused variable warnings which
 // can happen during the parser generation.
 #pragma warning disable 168
-//#nullable disable
+<%NullableContext%>
 
 namespace <%Namespace%>
 {
@@ -15,7 +15,7 @@ namespace <%Namespace%>
     public partial class Parser <%IParser%>
     {
         private Scanner scanner;
-        private ParseTree tree;
+        private ParseTree<%?%> tree;
         
         public Parser(Scanner scanner)
         {
