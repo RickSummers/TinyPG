@@ -498,7 +498,7 @@ namespace TinyPG
                 if (grammar == null)
                     return;
 
-                ICodeGenerator generator = CodeGeneratorFactory.CreateGenerator(filetype, grammar.Directives["TinyPG"]["Language"]);
+                ICodeGenerator generator = TinyPG.Compiler.Compiler.CreateGenerator(filetype, grammar.Directives["TinyPG"]["Language"]);
                 string folder = grammar.GetOutputPath() + generator.FileName;
                 System.Diagnostics.Process.Start(folder);
             }

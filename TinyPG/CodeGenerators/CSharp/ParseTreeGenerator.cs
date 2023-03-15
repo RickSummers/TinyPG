@@ -12,19 +12,20 @@ namespace TinyPG.CodeGenerators.CSharp
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
+        public string Generate(IGrammar iGrammar, bool Debug, bool NullableContext)
         {
-            if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
+            var grammar = iGrammar as Grammar;
+            if (string.IsNullOrEmpty(grammar.GetTemplatePath()))
                 return null;
 
             // copy the parse tree file (optionally)
-            string parsetree = File.ReadAllText(Grammar.GetTemplatePath() + templateName);
+            string parsetree = File.ReadAllText(grammar.GetTemplatePath() + templateName);
 
             StringBuilder evalsymbols = new StringBuilder();
             StringBuilder evalmethods = new StringBuilder();
 
             // build non terminal tokens
-            foreach (Symbol s in Grammar.GetNonTerminals())
+            foreach (Symbol s in grammar.GetNonTerminals())
             {
                 evalsymbols.AppendLine("                case TokenType." + s.Name + ":");
                 evalsymbols.AppendLine("                    Value = Eval" + s.Name + "(tree, paramlist);");
@@ -67,7 +68,7 @@ namespace TinyPG.CodeGenerators.CSharp
             }
             else
             {
-                parsetree = parsetree.Replace(@"<%Namespace%>", Grammar.Directives["TinyPG"]["Namespace"]);
+                parsetree = parsetree.Replace(@"<%Namespace%>", grammar.Directives["TinyPG"]["Namespace"]);
                 parsetree = parsetree.Replace(@"<%ParseError%>", "");
                 parsetree = parsetree.Replace(@"<%ParseErrors%>", "List<ParseError>");
                 parsetree = parsetree.Replace(@"<%IParseTree%>", "");

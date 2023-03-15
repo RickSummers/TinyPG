@@ -13,18 +13,19 @@ namespace TinyPG.CodeGenerators.CSharp
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
+        public string Generate(IGrammar iGrammar, bool Debug, bool NullableContext)
         {
-            if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
+            var grammar = iGrammar as Grammar;
+            if (string.IsNullOrEmpty(grammar.GetTemplatePath()))
                 return null;
 
             // generate the parser file
             StringBuilder parsers = new StringBuilder();
-            string parser = File.ReadAllText(Grammar.GetTemplatePath() + templateName);
-            var nullableContext = Grammar.Directives["TinyPG"]["NullableContext"] == "enable";
+            string parser = File.ReadAllText(grammar.GetTemplatePath() + templateName);
+            var nullableContext = grammar.Directives["TinyPG"]["NullableContext"] == "enable";
 
             // build non terminal tokens
-            foreach (NonTerminalSymbol s in Grammar.GetNonTerminals())
+            foreach (NonTerminalSymbol s in grammar.GetNonTerminals())
             {
                 string method = GenerateParseMethod(s, nullableContext);
                 parsers.Append(method);
@@ -40,7 +41,7 @@ namespace TinyPG.CodeGenerators.CSharp
             }
             else
             {
-                parser = parser.Replace(@"<%Namespace%>", Grammar.Directives["TinyPG"]["Namespace"]);
+                parser = parser.Replace(@"<%Namespace%>", grammar.Directives["TinyPG"]["Namespace"]);
                 parser = parser.Replace(@"<%IParser%>", "");
                 parser = parser.Replace(@"<%IParseTree%>", "ParseTree");
             }

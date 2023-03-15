@@ -11,17 +11,18 @@ namespace TinyPG.CodeGenerators.VBNet
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
+        public string Generate(IGrammar iGrammar, bool Debug, bool NullableContext)
         {
-            if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
+            var grammar = iGrammar as Grammar;
+            if (string.IsNullOrEmpty(grammar.GetTemplatePath()))
                 return null;
 
             // generate the parser file
             StringBuilder parsers = new StringBuilder();
-            string parser = File.ReadAllText(Grammar.GetTemplatePath() + templateName);
+            string parser = File.ReadAllText(grammar.GetTemplatePath() + templateName);
 
             // build non terminal tokens
-            foreach (NonTerminalSymbol s in Grammar.GetNonTerminals())
+            foreach (NonTerminalSymbol s in grammar.GetNonTerminals())
             {
                 string method = GenerateParseMethod(s);
                 parsers.Append(method);
@@ -37,7 +38,7 @@ namespace TinyPG.CodeGenerators.VBNet
             else
             {
                 parser = parser.Replace(@"<%Imports%>", "");
-                parser = parser.Replace(@"<%Namespace%>", Grammar.Directives["TinyPG"]["Namespace"]);
+                parser = parser.Replace(@"<%Namespace%>", grammar.Directives["TinyPG"]["Namespace"]);
                 parser = parser.Replace(@"<%IParser%>", "");
                 parser = parser.Replace(@"<%IParseTree%>", "ParseTree");
             }

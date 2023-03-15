@@ -12,17 +12,18 @@ namespace TinyPG.CodeGenerators.CSharp
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
+        public string Generate(IGrammar iGrammar, bool Debug, bool NullableContext)
         {
-            if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
+            var grammar = iGrammar as Grammar;
+            if (string.IsNullOrEmpty(grammar.GetTemplatePath()))
                 return null;
 
-            string generatedtext = File.ReadAllText(Grammar.GetTemplatePath() + templateName);
+            string generatedtext = File.ReadAllText(grammar.GetTemplatePath() + templateName);
             StringBuilder tokens = new StringBuilder();
             StringBuilder colors = new StringBuilder();
 
             int colorindex = 1;
-            foreach (TerminalSymbol t in Grammar.GetTerminals())
+            foreach (TerminalSymbol t in grammar.GetTerminals())
             {
                 if (!t.Attributes.ContainsKey("Color"))
                     continue;
@@ -71,7 +72,7 @@ namespace TinyPG.CodeGenerators.CSharp
             }
             else
             {
-                generatedtext = generatedtext.Replace(@"<%Namespace%>", Grammar.Directives["TinyPG"]["Namespace"]);
+                generatedtext = generatedtext.Replace(@"<%Namespace%>", grammar.Directives["TinyPG"]["Namespace"]);
             }
 
             return generatedtext;

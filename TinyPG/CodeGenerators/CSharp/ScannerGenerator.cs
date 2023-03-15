@@ -12,25 +12,26 @@ namespace TinyPG.CodeGenerators.CSharp
         {
         }
 
-        public string Generate(Grammar Grammar, bool Debug, bool NullableContext)
+        public string Generate(IGrammar iGrammar, bool Debug, bool NullableContext)
         {
-            if (string.IsNullOrEmpty(Grammar.GetTemplatePath()))
+            var grammar = iGrammar as Grammar;
+            if (string.IsNullOrEmpty(grammar.GetTemplatePath()))
                 return null;
 
-            string scanner = File.ReadAllText(Grammar.GetTemplatePath() + templateName);
+            string scanner = File.ReadAllText(grammar.GetTemplatePath() + templateName);
 
             int counter = 2;
             StringBuilder tokentype = new StringBuilder();
             StringBuilder regexps = new StringBuilder();
             StringBuilder skiplist = new StringBuilder();
 
-            foreach (TerminalSymbol s in Grammar.SkipSymbols)
+            foreach (TerminalSymbol s in grammar.SkipSymbols)
             {
                 skiplist.AppendLine("            SkipList.Add(TokenType." + s.Name + ");");
             }
 
-            if (Grammar.FileAndLine != null)
-                skiplist.AppendLine("            FileAndLine = TokenType." + Grammar.FileAndLine.Name + ";");
+            if (grammar.FileAndLine != null)
+                skiplist.AppendLine("            FileAndLine = TokenType." + grammar.FileAndLine.Name + ";");
 
             // build system tokens
             tokentype.AppendLine("\r\n            //Non terminal tokens:");
@@ -39,7 +40,7 @@ namespace TinyPG.CodeGenerators.CSharp
 
             // build non terminal tokens
             tokentype.AppendLine("\r\n            //Non terminal tokens:");
-            foreach (Symbol s in Grammar.GetNonTerminals())
+            foreach (Symbol s in grammar.GetNonTerminals())
             {
                 tokentype.AppendLine(Helper.Outline(s.Name, 3, "= " + String.Format("{0:d},", counter), 5));
                 counter++;
@@ -48,7 +49,7 @@ namespace TinyPG.CodeGenerators.CSharp
             // build terminal tokens
             tokentype.AppendLine("\r\n            //Terminal tokens:");
             bool first = true;
-            foreach (TerminalSymbol s in Grammar.GetTerminals())
+            foreach (TerminalSymbol s in grammar.GetTerminals())
             {
                 regexps.Append("            regex = new Regex(" + s.Expression.ToString() + ", RegexOptions.Compiled");
 
@@ -81,7 +82,7 @@ namespace TinyPG.CodeGenerators.CSharp
             }
             else
             {
-                scanner = scanner.Replace(@"<%Namespace%>", Grammar.Directives["TinyPG"]["Namespace"]);
+                scanner = scanner.Replace(@"<%Namespace%>", grammar.Directives["TinyPG"]["Namespace"]);
                 scanner = scanner.Replace(@"<%IToken%>", "");
             }
 

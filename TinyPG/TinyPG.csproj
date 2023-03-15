@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="CodeGenerators\BaseGenerator.cs" />
     <Compile Include="CodeGenerators\CodeGeneratorFactory.cs" />
-    <Compile Include="CodeGenerators\ICodeGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\ParserGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\ParseTreeGenerator.cs" />
     <Compile Include="CodeGenerators\CSharp\ScannerGenerator.cs" />
@@ -185,6 +184,12 @@
     <Content Include="Templates\VB\TextHighlighter.vb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TinyPG48\TinyPG48.csproj">
+      <Project>{ec1a6ce4-4f12-4424-969f-fdbfcd364ef3}</Project>
+      <Name>TinyPG48</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

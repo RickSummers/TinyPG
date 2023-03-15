@@ -85,8 +85,11 @@ namespace TinyPG.Compiler
         /// </summary>
         private void BuildCode()
         {
-            string language = Grammar.Directives["TinyPG"]["Language"];
-            bool nullableContext = (Grammar.Directives["TinyPG"]["NullableContext"] == "enable");
+            var helper = new TinyPG.CompileHelper();
+            helper.Language = Grammar.Directives["TinyPG"]["Language"];
+            helper.NullableContext = (Grammar.Directives["TinyPG"]["NullableContext"] == "enable");
+
+            /*
             CodeDom.CompilerResults Result;
             CodeDom.CodeDomProvider provider = CodeGeneratorFactory.CreateCodeDomProvider(language);
             System.CodeDom.Compiler.CompilerParameters compilerparams = new System.CodeDom.Compiler.CompilerParameters();
@@ -104,37 +107,72 @@ namespace TinyPG.Compiler
 
             // generate the code with debug interface enabled
             List<string> sources = new List<string>();
-            ICodeGenerator generator;
-            foreach (Directive d in Grammar.Directives)
-            {
-                generator = CodeGeneratorFactory.CreateGenerator(d.Name, language);
-                if (generator != null && d.ContainsKey("FileName"))
-                    generator.FileName = d["FileName"];
+            */
 
-                if (generator != null && d["Generate"].ToLower() == "true")
-                    sources.Add(generator.Generate(Grammar, true, nullableContext));
+            var ds = new string[] {"Parser", "Scanner", "ParseTree", "TextHighlighter" };
+            var cg = new ICodeGenerator[ds.Length];
+            for (var i=0; i<ds.Length; i++)
+            {
+                var directive = Grammar.Directives[ds[i]];
+                cg[i] = CreateGenerator(ds[i], helper.Language);
+                if (cg[i] != null) 
+                {
+                    if (directive.ContainsKey("FileName"))
+                        cg[i].FileName = directive["FileName"];
+
+                    if (directive["Generate"].ToLower() == "true")
+                    {
+                        var source = cg[i].Generate(Grammar, true, helper.NullableContext);
+                        helper.Sources.Add(source);
+                    }
+                }
             }
 
-            if (sources.Count > 0)
+            try
             {
-                for (var i=0; i<sources.Count; ++i)
-                {
-                    var f = Path.GetFullPath("" + i + ".cs");
-                    var src = sources[i]; // .Replace("#nullable", "// #nullable");
-                    System.IO.File.WriteAllText(f, src);
-                }
-
-                Result = provider.CompileAssemblyFromSource(compilerparams, sources.ToArray());
-
-                if (Result.Errors.Count > 0)
-                {
-                    foreach (CodeDom.CompilerError o in Result.Errors)
-                        Errors.Add(o.ErrorText + " on line " + o.Line.ToString());
-                }
-                else
-                    assembly = Result.CompiledAssembly;
+                assembly = helper.BuildCode();
+            }
+            catch (Exception)
+            {
+                Errors = helper.Errors;
             }
         }
+
+        internal static ICodeGenerator CreateGenerator(string generator, string language)
+        {
+            switch (CodeGeneratorFactory.GetSupportedLanguage(language))
+            {
+                // set the default templates directory
+                case SupportedLanguage.VBNet:
+                    switch (generator)
+                    {
+                        case "Parser":
+                            return new TinyPG.CodeGenerators.VBNet.ParserGenerator();
+                        case "Scanner":
+                            return new TinyPG.CodeGenerators.VBNet.ScannerGenerator();
+                        case "ParseTree":
+                            return new TinyPG.CodeGenerators.VBNet.ParseTreeGenerator();
+                        case "TextHighlighter":
+                            return new TinyPG.CodeGenerators.VBNet.TextHighlighterGenerator();
+                    }
+                    break;
+                default: // c# is default language
+                    switch (generator)
+                    {
+                        case "Parser":
+                            return new TinyPG.CodeGenerators.CSharp.ParserGenerator();
+                        case "Scanner":
+                            return new TinyPG.CodeGenerators.CSharp.ScannerGenerator();
+                        case "ParseTree":
+                            return new TinyPG.CodeGenerators.CSharp.ParseTreeGenerator();
+                        case "TextHighlighter":
+                            return new TinyPG.CodeGenerators.CSharp.TextHighlighterGenerator();
+                    }
+                    break;
+            }
+            return null; // codegenerator was not found
+        }
+
 
         /// <summary>
         /// evaluate the input expression

@@ -26,7 +26,7 @@ namespace TinyPG
             bool nullableContext = (grammar.Directives["TinyPG"]["NullableContext"] == "enable");
             foreach (Directive d in grammar.Directives)
             {
-                generator = CodeGeneratorFactory.CreateGenerator(d.Name, language);
+                generator = TinyPG.Compiler.Compiler.CreateGenerator(d.Name, language);
                 
                 if (generator != null && d.ContainsKey("FileName"))
                 {
