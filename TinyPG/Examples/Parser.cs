@@ -6,6 +6,7 @@ using System.Collections.Generic;
 // Disable unused variable warnings which
 // can happen during the parser generation.
 #pragma warning disable 168
+//#nullable disable
 
 namespace Generated
 {
@@ -14,7 +15,7 @@ namespace Generated
     public partial class Parser 
     {
         private Scanner scanner;
-        private ParseTree? tree;
+        private ParseTree tree;
         
         public Parser(Scanner scanner)
         {
@@ -74,7 +75,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.EOF) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.EOF.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.EOF.ToString(), 0x1001, tok));
                 return;
             }
 
@@ -95,7 +96,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.FUNCTION) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.FUNCTION.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.FUNCTION.ToString(), 0x1001, tok));
                 return;
             }
 
@@ -105,7 +106,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.BRACKETOPEN) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.BRACKETOPEN.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.BRACKETOPEN.ToString(), 0x1001, tok));
                 return;
             }
 
@@ -134,7 +135,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.BRACKETCLOSE) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.BRACKETCLOSE.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.BRACKETCLOSE.ToString(), 0x1001, tok));
                 return;
             }
 
@@ -168,7 +169,7 @@ namespace Generated
                     ParseParenthesizedExpression(node); // NonTerminal Rule: ParenthesizedExpression
                     break;
                 default:
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected FUNCTION, VARIABLE, BOOLEANLITERAL, DECIMALINTEGERLITERAL, HEXINTEGERLITERAL, REALLITERAL, STRINGLITERAL, or BRACKETOPEN.", 0x0002, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected FUNCTION, VARIABLE, BOOLEANLITERAL, DECIMALINTEGERLITERAL, HEXINTEGERLITERAL, REALLITERAL, STRINGLITERAL, or BRACKETOPEN.", 0x0002, tok));
                     break;
             } // Choice Rule
 
@@ -189,7 +190,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.BRACKETOPEN) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.BRACKETOPEN.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.BRACKETOPEN.ToString(), 0x1001, tok));
                 return;
             }
 
@@ -202,7 +203,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.BRACKETCLOSE) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.BRACKETCLOSE.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.BRACKETCLOSE.ToString(), 0x1001, tok));
                 return;
             }
 
@@ -237,7 +238,7 @@ namespace Generated
                     node.Token.UpdateRange(tok);
                     node.Nodes.Add(n);
                     if (tok.Type != TokenType.PLUS) {
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.PLUS.ToString(), 0x1001, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.PLUS.ToString(), 0x1001, tok));
                         return;
                     }
 
@@ -252,7 +253,7 @@ namespace Generated
                     node.Token.UpdateRange(tok);
                     node.Nodes.Add(n);
                     if (tok.Type != TokenType.MINUS) {
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.MINUS.ToString(), 0x1001, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.MINUS.ToString(), 0x1001, tok));
                         return;
                     }
 
@@ -267,7 +268,7 @@ namespace Generated
                     node.Token.UpdateRange(tok);
                     node.Nodes.Add(n);
                     if (tok.Type != TokenType.NOT) {
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.NOT.ToString(), 0x1001, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.NOT.ToString(), 0x1001, tok));
                         return;
                     }
 
@@ -275,7 +276,7 @@ namespace Generated
                     ParseUnaryExpression(node); // NonTerminal Rule: UnaryExpression
                     break;
                 default:
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected FUNCTION, VARIABLE, BOOLEANLITERAL, DECIMALINTEGERLITERAL, HEXINTEGERLITERAL, REALLITERAL, STRINGLITERAL, BRACKETOPEN, PLUS, MINUS, or NOT.", 0x0002, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected FUNCTION, VARIABLE, BOOLEANLITERAL, DECIMALINTEGERLITERAL, HEXINTEGERLITERAL, REALLITERAL, STRINGLITERAL, BRACKETOPEN, PLUS, MINUS, or NOT.", 0x0002, tok));
                     break;
             } // Choice Rule
 
@@ -304,7 +305,7 @@ namespace Generated
                 node.Token.UpdateRange(tok);
                 node.Nodes.Add(n);
                 if (tok.Type != TokenType.POWER) {
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.POWER.ToString(), 0x1001, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.POWER.ToString(), 0x1001, tok));
                     return;
                 }
 
@@ -344,7 +345,7 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.ASTERIKS) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.ASTERIKS.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.ASTERIKS.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
@@ -354,7 +355,7 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.SLASH) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.SLASH.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.SLASH.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
@@ -364,12 +365,12 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.PERCENT) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.PERCENT.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.PERCENT.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
                     default:
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected ASTERIKS, SLASH, or PERCENT.", 0x0002, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected ASTERIKS, SLASH, or PERCENT.", 0x0002, tok));
                         break;
                 } // Choice Rule
 
@@ -408,7 +409,7 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.PLUS) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.PLUS.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.PLUS.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
@@ -418,12 +419,12 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.MINUS) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.MINUS.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.MINUS.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
                     default:
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected PLUS or MINUS.", 0x0002, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected PLUS or MINUS.", 0x0002, tok));
                         break;
                 } // Choice Rule
 
@@ -457,7 +458,7 @@ namespace Generated
                 node.Token.UpdateRange(tok);
                 node.Nodes.Add(n);
                 if (tok.Type != TokenType.AMP) {
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.AMP.ToString(), 0x1001, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.AMP.ToString(), 0x1001, tok));
                     return;
                 }
 
@@ -498,7 +499,7 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.LESSTHAN) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.LESSTHAN.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.LESSTHAN.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
@@ -508,7 +509,7 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.LESSEQUAL) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.LESSEQUAL.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.LESSEQUAL.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
@@ -518,7 +519,7 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.GREATERTHAN) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.GREATERTHAN.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.GREATERTHAN.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
@@ -528,12 +529,12 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.GREATEREQUAL) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.GREATEREQUAL.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.GREATEREQUAL.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
                     default:
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected LESSTHAN, LESSEQUAL, GREATERTHAN, or GREATEREQUAL.", 0x0002, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected LESSTHAN, LESSEQUAL, GREATERTHAN, or GREATEREQUAL.", 0x0002, tok));
                         break;
                 } // Choice Rule
 
@@ -571,7 +572,7 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.EQUAL) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.EQUAL.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.EQUAL.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
@@ -581,12 +582,12 @@ namespace Generated
                         node.Token.UpdateRange(tok);
                         node.Nodes.Add(n);
                         if (tok.Type != TokenType.NOTEQUAL) {
-                            tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.NOTEQUAL.ToString(), 0x1001, tok));
+                            tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.NOTEQUAL.ToString(), 0x1001, tok));
                             return;
                         }
                         break;
                     default:
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected EQUAL or NOTEQUAL.", 0x0002, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected EQUAL or NOTEQUAL.", 0x0002, tok));
                         break;
                 } // Choice Rule
 
@@ -620,7 +621,7 @@ namespace Generated
                 node.Token.UpdateRange(tok);
                 node.Nodes.Add(n);
                 if (tok.Type != TokenType.AMPAMP) {
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.AMPAMP.ToString(), 0x1001, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.AMPAMP.ToString(), 0x1001, tok));
                     return;
                 }
 
@@ -654,7 +655,7 @@ namespace Generated
                 node.Token.UpdateRange(tok);
                 node.Nodes.Add(n);
                 if (tok.Type != TokenType.PIPEPIPE) {
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.PIPEPIPE.ToString(), 0x1001, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.PIPEPIPE.ToString(), 0x1001, tok));
                     return;
                 }
 
@@ -688,7 +689,7 @@ namespace Generated
                 node.Token.UpdateRange(tok);
                 node.Nodes.Add(n);
                 if (tok.Type != TokenType.QUESTIONMARK) {
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.QUESTIONMARK.ToString(), 0x1001, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.QUESTIONMARK.ToString(), 0x1001, tok));
                     return;
                 }
 
@@ -701,7 +702,7 @@ namespace Generated
                 node.Token.UpdateRange(tok);
                 node.Nodes.Add(n);
                 if (tok.Type != TokenType.COLON) {
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.COLON.ToString(), 0x1001, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.COLON.ToString(), 0x1001, tok));
                     return;
                 }
 
@@ -748,7 +749,7 @@ namespace Generated
                 node.Token.UpdateRange(tok);
                 node.Nodes.Add(n);
                 if (tok.Type != TokenType.ASSIGN) {
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.ASSIGN.ToString(), 0x1001, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.ASSIGN.ToString(), 0x1001, tok));
                     return;
                 }
 
@@ -781,7 +782,7 @@ namespace Generated
                 node.Token.UpdateRange(tok);
                 node.Nodes.Add(n);
                 if (tok.Type != TokenType.SEMICOLON) {
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.SEMICOLON.ToString(), 0x1001, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.SEMICOLON.ToString(), 0x1001, tok));
                     return;
                 }
 
@@ -809,7 +810,7 @@ namespace Generated
                     node.Token.UpdateRange(tok);
                     node.Nodes.Add(n);
                     if (tok.Type != TokenType.BOOLEANLITERAL) {
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.BOOLEANLITERAL.ToString(), 0x1001, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.BOOLEANLITERAL.ToString(), 0x1001, tok));
                         return;
                     }
                     break;
@@ -824,7 +825,7 @@ namespace Generated
                     ParseStringLiteral(node); // NonTerminal Rule: StringLiteral
                     break;
                 default:
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected BOOLEANLITERAL, DECIMALINTEGERLITERAL, HEXINTEGERLITERAL, REALLITERAL, or STRINGLITERAL.", 0x0002, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected BOOLEANLITERAL, DECIMALINTEGERLITERAL, HEXINTEGERLITERAL, REALLITERAL, or STRINGLITERAL.", 0x0002, tok));
                     break;
             } // Choice Rule
 
@@ -847,7 +848,7 @@ namespace Generated
                     node.Token.UpdateRange(tok);
                     node.Nodes.Add(n);
                     if (tok.Type != TokenType.DECIMALINTEGERLITERAL) {
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.DECIMALINTEGERLITERAL.ToString(), 0x1001, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.DECIMALINTEGERLITERAL.ToString(), 0x1001, tok));
                         return;
                     }
                     break;
@@ -857,12 +858,12 @@ namespace Generated
                     node.Token.UpdateRange(tok);
                     node.Nodes.Add(n);
                     if (tok.Type != TokenType.HEXINTEGERLITERAL) {
-                        tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.HEXINTEGERLITERAL.ToString(), 0x1001, tok));
+                        tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.HEXINTEGERLITERAL.ToString(), 0x1001, tok));
                         return;
                     }
                     break;
                 default:
-                    tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected DECIMALINTEGERLITERAL or HEXINTEGERLITERAL.", 0x0002, tok));
+                    tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected DECIMALINTEGERLITERAL or HEXINTEGERLITERAL.", 0x0002, tok));
                     break;
             } // Choice Rule
 
@@ -881,7 +882,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.REALLITERAL) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.REALLITERAL.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.REALLITERAL.ToString(), 0x1001, tok));
                 return;
             }
 
@@ -900,7 +901,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.STRINGLITERAL) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.STRINGLITERAL.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.STRINGLITERAL.ToString(), 0x1001, tok));
                 return;
             }
 
@@ -919,7 +920,7 @@ namespace Generated
             node.Token.UpdateRange(tok);
             node.Nodes.Add(n);
             if (tok.Type != TokenType.VARIABLE) {
-                tree!.Errors.Add(new ParseError("Unexpected token '" + tok.Text!.Replace("\n", "") + "' found. Expected " + TokenType.VARIABLE.ToString(), 0x1001, tok));
+                tree.Errors.Add(new ParseError("Unexpected token '" + tok.Text.Replace("\n", "") + "' found. Expected " + TokenType.VARIABLE.ToString(), 0x1001, tok));
                 return;
             }
 

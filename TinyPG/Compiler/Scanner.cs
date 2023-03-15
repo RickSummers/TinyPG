@@ -25,7 +25,9 @@ namespace TinyPG
         private Token LookAheadToken;
         private List<TokenType> Tokens;
         private List<TokenType> SkipList; // tokens to be skipped
+#pragma warning disable CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
         private readonly TokenType FileAndLine;
+#pragma warning restore CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
 
         public Scanner()
         {

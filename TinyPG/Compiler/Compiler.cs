@@ -16,7 +16,7 @@ using TinyPG.CodeGenerators;
 using TinyPG.Debug;
 
 using System.Windows.Forms;
-
+using System.IO;
 
 namespace TinyPG.Compiler
 {
@@ -116,6 +116,13 @@ namespace TinyPG.Compiler
 
             if (sources.Count > 0)
             {
+                for (var i=0; i<sources.Count; ++i)
+                {
+                    var f = Path.GetFullPath("" + i + ".cs");
+                    var src = sources[i]; // .Replace("#nullable", "// #nullable");
+                    System.IO.File.WriteAllText(f, src);
+                }
+
                 Result = provider.CompileAssemblyFromSource(compilerparams, sources.ToArray());
 
                 if (Result.Errors.Count > 0)

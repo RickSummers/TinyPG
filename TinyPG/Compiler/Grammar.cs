@@ -156,6 +156,8 @@ namespace TinyPG.Compiler
                 d["OutputPath"] = "./"; // write files to current path
             if (!d.ContainsKey("Language"))
                 d["Language"] = "C#"; // set default language
+            if (!d.ContainsKey("Nullable"))
+                d["Nullable"] = "disabled"; // set as a not-nullable context
             if (!d.ContainsKey("TemplatePath"))
             {
                 switch (d["Language"].ToLower(CultureInfo.InvariantCulture))

@@ -88,7 +88,7 @@ namespace TinyPG.CodeGenerators.CSharp
                     sb.AppendLine(Indent + "node.Token.UpdateRange(tok);");
                     sb.AppendLine(Indent + "node.Nodes.Add(n);");
                     sb.AppendLine(Indent + "if (tok.Type != TokenType." + r.Symbol.Name + ") {");
-                    sb.AppendLine(Indent + "    tree!.Errors.Add(new ParseError(\"Unexpected token '\" + tok.Text!.Replace(\"\\n\", \"\") + \"' found. Expected \" + TokenType." + r.Symbol.Name + ".ToString(), 0x1001, tok));");
+                    sb.AppendLine(Indent + "    tree.Errors.Add(new ParseError(\"Unexpected token '\" + tok.Text.Replace(\"\\n\", \"\") + \"' found. Expected \" + TokenType." + r.Symbol.Name + ".ToString(), 0x1001, tok));");
                     sb.AppendLine(Indent + "    return;");
                     sb.AppendLine(Indent + "}");
                     break;
@@ -250,7 +250,7 @@ namespace TinyPG.CodeGenerators.CSharp
                         sb.AppendLine(Indent + "        break;");
                     }
                     sb.AppendLine(Indent + "    default:");
-                    sb.AppendLine(Indent + "        tree!.Errors.Add(new ParseError(\"Unexpected token '\" + tok.Text!.Replace(\"\\n\", \"\") + \"' found. Expected " + expectedTokens + ".\", 0x0002, tok));");
+                    sb.AppendLine(Indent + "        tree.Errors.Add(new ParseError(\"Unexpected token '\" + tok.Text.Replace(\"\\n\", \"\") + \"' found. Expected " + expectedTokens + ".\", 0x0002, tok));");
                     sb.AppendLine(Indent + "        break;");
                     sb.AppendLine(Indent + "}" + Helper.AddComment("Choice Rule"));
                     break;

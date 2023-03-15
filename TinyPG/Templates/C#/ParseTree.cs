@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-#nullable disable
+//#nullable disable
 
 namespace <%Namespace%>
 {

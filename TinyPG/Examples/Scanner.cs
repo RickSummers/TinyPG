@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
-#nullable disable
+//#nullable disable
 
 namespace Generated
 {
@@ -27,9 +27,9 @@ namespace Generated
         private Token LookAheadToken;
         private List<TokenType> Tokens;
         private List<TokenType> SkipList; // tokens to be skipped
-#pragma warning disable CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
+//#pragma warning disable CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
         private readonly TokenType FileAndLine;
-#pragma warning restore CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
+//#pragma warning restore CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
 
         public Scanner()
         {
@@ -228,7 +228,7 @@ namespace Generated
             LookAheadToken = null; // reset lookahead token, so scanning will continue
             StartPos = tok.EndPos;
             EndPos = tok.EndPos; // set the tokenizer to the new scan position
-            CurrentLine = tok.Line + (tok.Text!.Length - tok.Text.Replace("\n", "").Length);
+            CurrentLine = tok.Line + (tok.Text.Length - tok.Text.Replace("\n", "").Length);
             CurrentFile = tok.File;
             return tok;
         }
@@ -268,7 +268,7 @@ namespace Generated
 
                 int len = -1;
                 TokenType index = (TokenType)int.MaxValue;
-                string input = Input!.Substring(startpos);
+                string input = Input.Substring(startpos);
 
                 tok = new Token(startpos, endpos);
 
@@ -307,7 +307,7 @@ namespace Generated
                 {
                     startpos = tok.EndPos;
                     endpos = tok.EndPos;
-                    currentline = tok.Line + (tok.Text!.Length - tok.Text.Replace("\n", "").Length);
+                    currentline = tok.Line + (tok.Text.Length - tok.Text.Replace("\n", "").Length);
                     currentFile = tok.File;
                     Skipped.Add(tok);
                 }
@@ -322,7 +322,7 @@ namespace Generated
                 // alter the file and line number.
                 if (tok.Type == FileAndLine)
                 {
-                    var match = Patterns[tok.Type].Match(tok.Text!);
+                    var match = Patterns[tok.Type].Match(tok.Text);
                     var fileMatch = match.Groups["File"];
                     if (fileMatch.Success)
                         currentFile = fileMatch.Value.Replace("\\\\", "\\");
