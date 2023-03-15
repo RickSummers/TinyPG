@@ -373,7 +373,7 @@ namespace TinyPG.Highlighter
             AddRtfEnd(sb);
 
             IsHighlighting = true;
-            Textbox.Rtf = sb.ToString();
+            //Textbox.Rtf = sb.ToString();
             IsHighlighting = false;
         }
 
@@ -585,7 +585,9 @@ namespace TinyPG.Highlighter
             isDisposing = true;
             threadAutoHighlight.Join(1000);
             if (threadAutoHighlight.IsAlive)
+#pragma warning disable SYSLIB0006 // Type or member is obsolete
                 threadAutoHighlight.Abort();
+#pragma warning restore SYSLIB0006 // Type or member is obsolete
         }
 
         #endregion

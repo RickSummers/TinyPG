@@ -8,6 +8,8 @@
 // "In Project Suppression File". 
 // You do not need to add suppressions to this file manually. 
 
+using System.Diagnostics.CodeAnalysis;
+
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "TinyPG.MainForm.#EvaluateExpression()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "TinyPG.MainForm.#LoadConfig()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "TinyPG.MainForm.#NotepadViewFile(System.String)")]
@@ -45,3 +47,10 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "paramlist", Scope = "member", Target = "TinyPG.ParseNode.#EvalSubrule(TinyPG.ParseTree,System.Object[])")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Eval", Scope = "member", Target = "TinyPG.ParseNode.#EvalSymbol(TinyPG.ParseTree,System.Object[])")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "paramlist", Scope = "member", Target = "TinyPG.ParseNode.#EvalSymbol(TinyPG.ParseTree,System.Object[])")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:TinyPG.Controls.HeaderLabel.OnPaintBackground(System.Windows.Forms.PaintEventArgs)")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:TinyPG.Controls.TabControlEx.DrawTabPage(System.Drawing.Graphics,System.Int32,System.Windows.Forms.TabPage)")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:TinyPG.Controls.AutoComplete.InitializeComponent")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:TinyPG.Controls.TextMarker.MarkWords")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:TinyPG.Controls.TextMarker.MarkWord(TinyPG.Controls.TextMarker.Word,System.Drawing.Graphics)")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:TinyPG.Controls.HeaderLabel.PaintCloseButton(System.Drawing.Graphics)")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:TinyPG.Controls.TabControlEx.OnPaint(System.Windows.Forms.PaintEventArgs)")]

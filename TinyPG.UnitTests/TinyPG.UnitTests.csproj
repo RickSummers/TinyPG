@@ -1,81 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F6842B95-BAAE-45AA-A9CA-A0F04C661FA3}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TinyPG.UnitTests</RootNamespace>
-    <AssemblyName>TinyPG.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="System" />
-    <Reference Include="System.Core">
+    <Reference Update="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ProgramTester.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ParserTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TinyPG\TinyPG.csproj">
-      <Project>{423B1883-6B35-401B-BB70-B7167F847575}</Project>
-      <Name>TinyPG</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\TinyPG\TinyPG.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\Testfiles\BNFGrammar v1.1.tpg" />
-    <None Include="Properties\Testfiles\BNFGrammar_vb v1.1.tpg" />
-    <None Include="Properties\Testfiles\GrammarHighlighter.tpg" />
-    <None Include="Properties\Testfiles\GrammarHighlighter_vb.tpg" />
-    <None Include="Properties\Testfiles\simple expression1.tpg" />
-    <None Include="Properties\Testfiles\simple expression1_vb.tpg" />
-    <None Include="Properties\Testfiles\simple expression2.tpg" />
-    <None Include="Properties\Testfiles\simple expression2_vb.tpg" />
-    <None Include="TinyPG.testrunconfig" />
+    <Compile Remove="Properties\Testfiles\Parser.cs" />
+    <Compile Remove="Properties\Testfiles\ParseTree.cs" />
+    <Compile Remove="Properties\Testfiles\Scanner.cs" />
+    <Compile Remove="Properties\Testfiles\TextHighlighter.cs" />
+    <Compile Remove="Testfiles\Parser.cs" />
+    <Compile Remove="Testfiles\ParseTree.cs" />
+    <Compile Remove="Testfiles\Scanner.cs" />
+    <Compile Remove="Testfiles\TextHighlighter.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyPG", "TinyPG.csproj", "{423B1883-6B35-401B-BB70-B7167F847575}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyPG.UnitTests", "..\TinyPG.UnitTests\TinyPG.UnitTests.csproj", "{F6842B95-BAAE-45AA-A9CA-A0F04C661FA3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyPG48", "..\TinyPG48\TinyPG48.csproj", "{EC1A6CE4-4F12-4424-969F-FDBFCD364EF3}"
 EndProject
 Global
@@ -27,10 +25,6 @@ Global
 		{423B1883-6B35-401B-BB70-B7167F847575}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{423B1883-6B35-401B-BB70-B7167F847575}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{423B1883-6B35-401B-BB70-B7167F847575}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6842B95-BAAE-45AA-A9CA-A0F04C661FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6842B95-BAAE-45AA-A9CA-A0F04C661FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6842B95-BAAE-45AA-A9CA-A0F04C661FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6842B95-BAAE-45AA-A9CA-A0F04C661FA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EC1A6CE4-4F12-4424-969F-FDBFCD364EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC1A6CE4-4F12-4424-969F-FDBFCD364EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC1A6CE4-4F12-4424-969F-FDBFCD364EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,6 +32,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {976CA066-D3A3-47EE-8990-C3A053506D0E}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = TinyPG3.vsmdi
