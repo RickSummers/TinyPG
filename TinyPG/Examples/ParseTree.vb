@@ -219,46 +219,19 @@ Namespace TinyPG
         End Function
 
         Protected Overridable Function EvalStart(ByVal tree As ParseTree, ByVal ParamArray paramlist As Object()) As Object
-            Return Me.GetValue(tree, TokenType.AddExpr, 0)
+            Return "Could not interpret input; no semantics implemented."
         End Function
 
         Protected Overridable Function EvalAddExpr(ByVal tree As ParseTree, ByVal ParamArray paramlist As Object()) As Object
-            Dim Value As Integer = Convert.ToInt32(Me.GetValue(tree, TokenType.MultExpr, 0))
-        	Dim i As Integer = 1
-        	While Me.GetValue(tree, TokenType.MultExpr, i) IsNot Nothing
-        		Dim sign As String = Me.GetValue(tree, TokenType.PLUSMINUS, i-1).ToString()
-        		If sign = "+" Then
-        			Value += Convert.ToInt32(Me.GetValue(tree, TokenType.MultExpr, i))
-        		Else 
-        			Value -= Convert.ToInt32(Me.GetValue(tree, TokenType.MultExpr, i))
-        		End If
-        		i=i+1
-        	End While
-        	Return Value
+            Throw New NotImplementedException()
         End Function
 
         Protected Overridable Function EvalMultExpr(ByVal tree As ParseTree, ByVal ParamArray paramlist As Object()) As Object
-            Dim Value As Integer = Convert.ToInt32(Me.GetValue(tree, TokenType.Atom, 0))
-        	Dim i As Integer = 1
-        	While Me.GetValue(tree, TokenType.Atom, i) IsNot Nothing
-        		Dim sign As String = Me.GetValue(tree, TokenType.MULTDIV, i-1).ToString()
-        		If sign = "*" Then
-        			Value *= Convert.ToInt32(Me.GetValue(tree, TokenType.Atom, i))
-        		Else 
-        			Value /= Convert.ToInt32(Me.GetValue(tree, TokenType.Atom, i))
-        		End If
-        		i=i+1
-        	End While
-        
-        	Return Value
+            Throw New NotImplementedException()
         End Function
 
         Protected Overridable Function EvalAtom(ByVal tree As ParseTree, ByVal ParamArray paramlist As Object()) As Object
-            If Me.GetValue(tree, TokenType.NUMBER, 0) IsNot Nothing Then
-        		Return Me.GetValue(tree, TokenType.NUMBER, 0)
-        	Else 
-        		Return Me.GetValue(tree, TokenType.AddExpr, 0)
-        	End If
+            Throw New NotImplementedException()
         End Function
 
 

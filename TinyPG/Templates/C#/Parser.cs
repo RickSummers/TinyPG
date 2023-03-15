@@ -14,7 +14,7 @@ namespace <%Namespace%>
     public partial class Parser <%IParser%>
     {
         private Scanner scanner;
-        private ParseTree tree;
+        private ParseTree? tree;
         
         public Parser(Scanner scanner)
         {

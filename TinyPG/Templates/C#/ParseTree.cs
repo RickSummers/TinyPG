@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
+#nullable disable
+
 namespace <%Namespace%>
 {
     #region ParseTree

@@ -33,10 +33,6 @@ Namespace TinyPG
             SkipList = New List(Of TokenType)()
             SkipList.Add(TokenType.WHITESPACE)
 
-            regex = new Regex("^\s*$", RegexOptions.Compiled)
-            Patterns.Add(TokenType.EOF, regex)
-            Tokens.Add(TokenType.EOF)
-
             regex = new Regex("[0-9]+", RegexOptions.Compiled)
             Patterns.Add(TokenType.NUMBER, regex)
             Tokens.Add(TokenType.NUMBER)
@@ -56,6 +52,10 @@ Namespace TinyPG
             regex = new Regex("\)", RegexOptions.Compiled)
             Patterns.Add(TokenType.BRCLOSE, regex)
             Tokens.Add(TokenType.BRCLOSE)
+
+            regex = new Regex("^$", RegexOptions.Compiled)
+            Patterns.Add(TokenType.EOF, regex)
+            Tokens.Add(TokenType.EOF)
 
             regex = new Regex("\s+", RegexOptions.Compiled)
             Patterns.Add(TokenType.WHITESPACE, regex)
@@ -178,12 +178,12 @@ Namespace TinyPG
         Atom        = 5
 
         'Terminal tokens:
-        EOF         = 6
-        NUMBER      = 7
-        PLUSMINUS   = 8
-        MULTDIV     = 9
-        BROPEN      = 10
-        BRCLOSE     = 11
+        NUMBER      = 6
+        PLUSMINUS   = 7
+        MULTDIV     = 8
+        BROPEN      = 9
+        BRCLOSE     = 10
+        EOF         = 11
         WHITESPACE  = 12
     End Enum
 
