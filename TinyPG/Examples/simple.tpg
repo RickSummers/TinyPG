@@ -52,6 +52,7 @@ LESSTHAN		-> @"<(?!>)"; // matches only when not followed by >
 GREATERTHAN		-> @">";
 COLON			-> @":";
 EOF			-> @"^$";
+VAR			-> @"var";
 
 
 [Skip] WHITESPACE 	-> @"\s+";
@@ -59,7 +60,11 @@ EOF			-> @"^$";
 
 Start -> (Statements)? EOF;
 
-Statements -> Expression (Expression)*;
+Statements -> Statement (Statement)*;
+Statement -> Expression | VarStatement;
+
+VarStatement -> VarDeclaration (COMMA Expression)?;
+VarDeclaration -> VAR Expression;
 
 //expressions
 Function			-> FUNCTION BRACKETOPEN Params? BRACKETCLOSE;
