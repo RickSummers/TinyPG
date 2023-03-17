@@ -1,13 +1,4 @@
-﻿// Copyright 2008 - 2010 Herre Kuijpers - <herre.kuijpers@gmail.com>
-//
-// This source file(s) may be redistributed, altered and customized
-// by any means PROVIDING the authors name and all copyright
-// notices remain intact.
-// THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED. USE IT AT YOUR OWN RISK. THE AUTHOR ACCEPTS NO
-// LIABILITY FOR ANY DATA DAMAGE/LOSS THAT THIS PRODUCT MAY CAUSE.
-//-----------------------------------------------------------------------
-using System;
+﻿using System;
 using System.Collections.Generic;
 using CodeDom = System.CodeDom.Compiler;
 using System.Reflection;
@@ -17,6 +8,10 @@ using TinyPG.Debug;
 
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
+using System.Text;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.CodeDom.Compiler;
 
 namespace TinyPG.Compiler
 {
@@ -55,7 +50,7 @@ namespace TinyPG.Compiler
         public List<string> Errors { get; set; }
 
         // the resulting compiled assembly
-        private Assembly assembly;
+        public Assembly CompiledAssembly;
 
 
         public Compiler()
@@ -80,9 +75,11 @@ namespace TinyPG.Compiler
                 IsCompiled = true;
         }
 
+        /*
         /// <summary>
         /// once the grammar compiles correctly, the code can be built.
         /// </summary>
+        
         private void BuildCode()
         {
             var helper = new TinyPG.CompileHelper();
@@ -107,7 +104,7 @@ namespace TinyPG.Compiler
 
             // generate the code with debug interface enabled
             List<string> sources = new List<string>();
-            */
+            *
 
             var ds = new string[] {"Parser", "Scanner", "ParseTree", "TextHighlighter" };
             var cg = new ICodeGenerator[ds.Length];
@@ -137,8 +134,79 @@ namespace TinyPG.Compiler
                 Errors = helper.Errors;
             }
         }
+        */
 
-        internal static ICodeGenerator CreateGenerator(string generator, string language)
+        /// <summary>
+        /// once the grammar compiles correctly, the code can be built.
+        /// </summary>
+        private Assembly BuildCode()
+        {
+            var language = Grammar.Directives["TinyPG"]["Language"];
+            var nullableContext = (Grammar.Directives["TinyPG"]["NullableContext"] == "enable");
+            var sources = new List<string>();
+
+            var ds = new string[] {"Parser", "Scanner", "ParseTree", "TextHighlighter" };
+            var cg = new TinyPG.CodeGenerators.ICodeGenerator[ds.Length];
+            for (var i=0; i<ds.Length; i++)
+            {
+                var directive = Grammar.Directives[ds[i]];
+                cg[i] = CreateGenerator(ds[i], language);
+                if (cg[i] != null) 
+                {
+                    if (directive.ContainsKey("FileName"))
+                        cg[i].FileName = directive["FileName"];
+
+                    if (directive["Generate"].ToLower() == "true")
+                    {
+                        var source = cg[i].Generate(Grammar, true, nullableContext);
+                        sources.Add(source);
+                    }
+                }
+            }
+
+            var assemblyFileName = Path.GetFullPath("assembly.dll");
+//          if (File.Exists(assemblyFileName))
+//              File.Delete(assemblyFileName);
+            var errorFileName = Path.GetFullPath("errors.txt");
+            if (File.Exists(errorFileName))
+                File.Delete(errorFileName);
+
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = @"C:\Github\TinyPG\TinyPG48\bin\Debug\TinyPG48.exe";
+                process.StartInfo.Arguments = "-a \"" + assemblyFileName + "\" -e \"" + errorFileName + "\"";
+                if (!nullableContext) process.StartInfo.Arguments += " -n-";
+                process.StartInfo.Arguments += " -r \"" + Assembly.GetExecutingAssembly().Location + "\"";
+                foreach (var source in sources)
+                {
+                    process.StartInfo.Arguments += " ";
+                    var filename = Path.GetTempFileName();
+                    File.WriteAllText(filename, source);
+                    process.StartInfo.Arguments += "\"" + filename + "\"";
+                }
+                System.Diagnostics.Debug.WriteLine(process.StartInfo.Arguments);
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                process.StartInfo.CreateNoWindow = true; //not diplay a windows
+                process.Start();
+                string output = process.StandardOutput.ReadToEnd(); //The output result
+                process.WaitForExit();
+            }
+
+            if (File.Exists(errorFileName) && new FileInfo(errorFileName).Length > 0)
+            {
+                Errors.AddRange(File.ReadAllLines(errorFileName));
+                throw new Exception("Errors: " + string.Join("\r\n", Errors));
+            }
+            else
+            {
+                CompiledAssembly = Assembly.LoadFile(assemblyFileName);
+                return CompiledAssembly;
+            }
+        }
+
+        internal static TinyPG.CodeGenerators.ICodeGenerator CreateGenerator(string generator, string language)
         {
             switch (CodeGeneratorFactory.GetSupportedLanguage(language))
             {
@@ -188,12 +256,12 @@ namespace TinyPG.Compiler
         {
             CompilerResult compilerresult = new CompilerResult();
             string output = null;
-            if (assembly == null) return null;
+            if (CompiledAssembly == null) return null;
 
-            object scannerinstance = assembly.CreateInstance("TinyPG.Debug.Scanner");
+            object scannerinstance = CompiledAssembly.CreateInstance("TinyPG.Debug.Scanner");
             Type scanner = scannerinstance.GetType();
 
-            object parserinstance = (IParser)assembly.CreateInstance("TinyPG.Debug.Parser", true, BindingFlags.CreateInstance, null, new object[] { scannerinstance }, null, null);
+            object parserinstance = (IParser)CompiledAssembly.CreateInstance("TinyPG.Debug.Parser", true, BindingFlags.CreateInstance, null, new object[] { scannerinstance }, null, null);
             Type parsertype = parserinstance.GetType();
 
             object treeinstance = parsertype.InvokeMember("Parse", BindingFlags.InvokeMethod, null, parserinstance, new object[] { input, string.Empty });
@@ -207,7 +275,7 @@ namespace TinyPG.Compiler
             if (textHighlight != null && errors.Count == 0)
             {
                 // try highlight the input text
-                object highlighterinstance = assembly.CreateInstance("TinyPG.Debug.TextHighlighter", true, BindingFlags.CreateInstance, null, new object[] { textHighlight, scannerinstance, parserinstance }, null, null);
+                object highlighterinstance = CompiledAssembly.CreateInstance("TinyPG.Debug.TextHighlighter", true, BindingFlags.CreateInstance, null, new object[] { textHighlight, scannerinstance, parserinstance }, null, null);
                 if (highlighterinstance != null)
                 {
                     output += "Highlighting input..." + "\r\n";

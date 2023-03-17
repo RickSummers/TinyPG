@@ -15,12 +15,14 @@ namespace TinyPG
         public string Language { get; set; } = "C#";
         public bool NullableContext { get; set; } = true;
         public readonly List<string> Sources = new List<string>();
+        public readonly List<string> References = new List<string>();
         public readonly List<string> Errors = new List<string>();
         public Assembly CompiledAssembly { get; private set; } = null;
         public ICodeGenerator ParserGenerator { get; set; }
         public ICodeGenerator ScannerGenerator { get; set; }
         public ICodeGenerator ParseTreeGenerator { get; set; }
         public ICodeGenerator HighlighterGenerator { get; set; }
+        public string AssemblyFileName { get; set; }
 
         public Assembly BuildCode()
         {
@@ -30,12 +32,16 @@ namespace TinyPG
             CompilerResults Result;
             CodeDomProvider provider = CodeGeneratorFactory.CreateCodeDomProvider(Language);
             CompilerParameters compilerparams = new CompilerParameters();
-            compilerparams.GenerateInMemory = true;
+            compilerparams.GenerateInMemory = (AssemblyFileName == null);
+            compilerparams.OutputAssembly = AssemblyFileName;
             compilerparams.GenerateExecutable = false;
             compilerparams.ReferencedAssemblies.Add("System.dll");
             compilerparams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerparams.ReferencedAssemblies.Add("System.Drawing.dll");
             compilerparams.ReferencedAssemblies.Add("System.Xml.dll");
+            compilerparams.ReferencedAssemblies.Add("System.Collections.dll");
+            foreach (var reference in References)
+                compilerparams.ReferencedAssemblies.Add(reference);
 
             // reference this assembly to share interfaces (for debugging only)
 

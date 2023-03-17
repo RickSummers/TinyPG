@@ -11,7 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TinyPG3.vsmdi = TinyPG3.vsmdi
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyPG", "TinyPG.csproj", "{423B1883-6B35-401B-BB70-B7167F847575}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyPG", "TinyPG.csproj", "{423B1883-6B35-401B-BB70-B7167F847575}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EC1A6CE4-4F12-4424-969F-FDBFCD364EF3} = {EC1A6CE4-4F12-4424-969F-FDBFCD364EF3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyPG48", "..\TinyPG48\TinyPG48.csproj", "{EC1A6CE4-4F12-4424-969F-FDBFCD364EF3}"
 EndProject

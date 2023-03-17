@@ -67,10 +67,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TinyPG48\TinyPG48.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="CodeGenerators\ICodeGenerator.cs" />
     <Compile Remove="Examples\Parser.cs" />
     <Compile Remove="Examples\ParseTree.cs" />
     <Compile Remove="Examples\Scanner.cs" />
@@ -79,5 +75,8 @@
     <Compile Remove="Templates\C#\ParseTree.cs" />
     <Compile Remove="Templates\C#\Scanner.cs" />
     <Compile Remove="Templates\C#\TextHighlighter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Examples\assembly.dll" />
   </ItemGroup>
 </Project>

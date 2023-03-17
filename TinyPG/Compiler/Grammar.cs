@@ -44,7 +44,7 @@ namespace TinyPG.Compiler
         public string Name { get; set; }
     }
 
-    public class Grammar : IGrammar
+    public class Grammar
     {
         /// <summary>
         /// represents all terminal and nonterminal symbols in the grammar

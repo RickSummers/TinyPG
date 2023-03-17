@@ -12,7 +12,7 @@ namespace TinyPG.CodeGenerators.CSharp
         {
         }
 
-        public string Generate(IGrammar iGrammar, bool Debug, bool NullableContext)
+        public string Generate(Grammar iGrammar, bool Debug, bool NullableContext)
         {
             var grammar = iGrammar as Grammar;
             if (string.IsNullOrEmpty(grammar.GetTemplatePath()))
