@@ -10,6 +10,7 @@
 // include text highlighting as part of the input window
 <% @TextHighlighter Generate="true" %>
 
+VAR			-> @"var";
 [Color(0, 0, 255)]
 BOOLEANLITERAL	-> @"true|false";
 [Color(255, 0, 0)]
@@ -52,7 +53,6 @@ LESSTHAN		-> @"<(?!>)"; // matches only when not followed by >
 GREATERTHAN		-> @">";
 COLON			-> @":";
 EOF			-> @"^$";
-VAR			-> @"var";
 
 
 [Skip] WHITESPACE 	-> @"\s+";
@@ -61,7 +61,7 @@ VAR			-> @"var";
 Start -> (Statements)? EOF;
 
 Statements -> Statement (Statement)*;
-Statement -> Expression | VarStatement;
+Statement -> VarStatement | Expression;
 
 VarStatement -> VarDeclaration (COMMA Expression)?;
 VarDeclaration -> VAR Expression;

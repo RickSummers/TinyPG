@@ -164,7 +164,7 @@ namespace TinyPG.Compiler
                 }
             }
 
-            var assemblyFileName = Path.GetFullPath("assembly.dll");
+            var assemblyFileName = Path.GetFullPath("assembly");
 //          if (File.Exists(assemblyFileName))
 //              File.Delete(assemblyFileName);
             var errorFileName = Path.GetFullPath("errors.txt");

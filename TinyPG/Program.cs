@@ -113,6 +113,8 @@ namespace TinyPG
         {
 
             this.output.AppendLine("Building code...");
+            var nc = grammar.Directives["TinyPG"]["NullableContext"];
+            grammar.Directives["TinyPG"]["NullableContext"] = "disable";
             compiler.Compile(grammar);
             if (!compiler.IsCompiled)
             {
@@ -121,6 +123,7 @@ namespace TinyPG
                 this.output.AppendLine("Compilation contains errors, could not compile.");
             }
 
+            grammar.Directives["TinyPG"]["NullableContext"] = nc;
             new GeneratedFilesWriter(grammar).Generate(false);
 
             return compiler.IsCompiled;

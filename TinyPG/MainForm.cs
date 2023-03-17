@@ -243,7 +243,7 @@ namespace TinyPG
             outputFloaty.Show();
             tabOutput.SelectedIndex = 0;
 
-            CompileGrammar(true);
+            CompileGrammar();
 
             if (compiler != null && compiler.Errors.Count == 0)
             {
@@ -493,7 +493,7 @@ namespace TinyPG
             try
             {
                 if (IsDirty || compiler == null || !compiler.IsCompiled)
-                    CompileGrammar(true);
+                    CompileGrammar();
 
                 if (grammar == null)
                     return;
@@ -514,7 +514,7 @@ namespace TinyPG
             {
 
                 if (IsDirty || compiler == null || !compiler.IsCompiled)
-                    CompileGrammar(true);
+                    CompileGrammar();
 
                 if (string.IsNullOrEmpty(GrammarFile))
                     return;
@@ -583,7 +583,7 @@ namespace TinyPG
             textEditor.Select(tree.Errors[0].Position, tree.Errors[0].Length > 0 ? tree.Errors[0].Length : 1);
         }
 
-        private void CompileGrammar(bool suppressNullableContextSetting)
+        private void CompileGrammar()
         {
 
             if (string.IsNullOrEmpty(GrammarFile))
@@ -606,21 +606,11 @@ namespace TinyPG
             {
                 SetHighlighterLanguage(grammar.Directives["TinyPG"]["Language"]);
 
-                string nc = null;
-                if (suppressNullableContextSetting)
-                {
-                    grammar.Directives["TinyPG"].TryGetValue("NullableContext", out nc);
-                    grammar.Directives["TinyPG"]["NullableContext"] = "disable";
-                }
-
                 if (prog.BuildCode(grammar, compiler))
                 {
                     TimeSpan span = DateTime.Now.Subtract(starttimer);
                     output.AppendLine("Compilation successful in " + span.TotalMilliseconds + "ms.");
                 }
-
-                if (nc != null)
-                    grammar.Directives["TinyPG"]["NullableContext"] = nc;
             }
 
             textOutput.Text = output.ToString();
@@ -699,8 +689,7 @@ namespace TinyPG
 
             textEditor.Text = File.ReadAllText(GrammarFile);
             textEditor.ClearUndo();
-            CompileGrammar(true);
-            //if (nc != null) grammar.Directives["TinyPG"]["NullableContext"] = nc;
+            CompileGrammar();
             textOutput.Text = "";
             textEditor.Focus();
             SetStatusbar();
