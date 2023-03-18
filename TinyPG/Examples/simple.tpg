@@ -53,8 +53,6 @@ LESSTHAN		-> @"<(?!>)"; // matches only when not followed by >
 GREATERTHAN		-> @">";
 COLON			-> @":";
 EOF			-> @"^$";
-
-
 [Skip] WHITESPACE 	-> @"\s+";
 
 
