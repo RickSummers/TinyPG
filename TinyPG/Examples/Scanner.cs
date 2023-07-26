@@ -6,9 +6,9 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
-//#nullable disable
 
-namespace Generated
+
+namespace TinyPG
 {
     #region Scanner
 
@@ -27,9 +27,9 @@ namespace Generated
         private Token LookAheadToken;
         private List<TokenType> Tokens;
         private List<TokenType> SkipList; // tokens to be skipped
-//#pragma warning disable CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
+#pragma warning disable CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
         private readonly TokenType FileAndLine;
-//#pragma warning restore CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
+#pragma warning restore CS0649 // Field 'Scanner.FileAndLine' is never assigned to, and will always have its default value
 
         public Scanner()
         {
@@ -40,155 +40,131 @@ namespace Generated
             Skipped = new List<Token>();
 
             SkipList = new List<TokenType>();
-            SkipList.Add(TokenType.WHITESPACE);
+            SkipList.Add(TokenType.WS);
+            SkipList.Add(TokenType.LINECOMMENT);
+            SkipList.Add(TokenType.COMMENTBLOCK);
+            SkipList.Add(TokenType.REGIONCOMMENT);
+            SkipList.Add(TokenType.ENDREGIONCOMMENT);
 
-            regex = new Regex(@"true|false", RegexOptions.Compiled);
-            Patterns.Add(TokenType.BOOLEANLITERAL, regex);
-            Tokens.Add(TokenType.BOOLEANLITERAL);
+            regex = new Regex(@"public|private|protected|internal", RegexOptions.Compiled);
+            Patterns.Add(TokenType.MODIFIER_KEYWORD, regex);
+            Tokens.Add(TokenType.MODIFIER_KEYWORD);
 
-            regex = new Regex(@"[0-9]+(UL|Ul|uL|ul|LU|Lu|lU|lu|U|u|L|l)?", RegexOptions.Compiled);
-            Patterns.Add(TokenType.DECIMALINTEGERLITERAL, regex);
-            Tokens.Add(TokenType.DECIMALINTEGERLITERAL);
+            regex = new Regex(@"partial", RegexOptions.Compiled);
+            Patterns.Add(TokenType.PARTIAL_KEYWORD, regex);
+            Tokens.Add(TokenType.PARTIAL_KEYWORD);
 
-            regex = new Regex(@"([0-9]+\.[0-9]+([eE][+-]?[0-9]+)?([fFdDMm]?)?)|(\.[0-9]+([eE][+-]?[0-9]+)?([fFdDMm]?)?)|([0-9]+([eE][+-]?[0-9]+)([fFdDMm]?)?)|([0-9]+([fFdDMm]?))", RegexOptions.Compiled);
-            Patterns.Add(TokenType.REALLITERAL, regex);
-            Tokens.Add(TokenType.REALLITERAL);
+            regex = new Regex(@"using", RegexOptions.Compiled);
+            Patterns.Add(TokenType.USING_KEYWORD, regex);
+            Tokens.Add(TokenType.USING_KEYWORD);
 
-            regex = new Regex(@"0(x|X)[0-9a-fA-F]+", RegexOptions.Compiled);
-            Patterns.Add(TokenType.HEXINTEGERLITERAL, regex);
-            Tokens.Add(TokenType.HEXINTEGERLITERAL);
+            regex = new Regex(@"namespace", RegexOptions.Compiled);
+            Patterns.Add(TokenType.NAMESPACE_KEYWORD, regex);
+            Tokens.Add(TokenType.NAMESPACE_KEYWORD);
 
-            regex = new Regex(@"\""(\""\""|[^\""])*\""", RegexOptions.Compiled);
-            Patterns.Add(TokenType.STRINGLITERAL, regex);
-            Tokens.Add(TokenType.STRINGLITERAL);
+            regex = new Regex(@"class", RegexOptions.Compiled);
+            Patterns.Add(TokenType.CLASS_KEYWORD, regex);
+            Tokens.Add(TokenType.CLASS_KEYWORD);
 
-            regex = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*(?=\s*\()", RegexOptions.Compiled);
-            Patterns.Add(TokenType.FUNCTION, regex);
-            Tokens.Add(TokenType.FUNCTION);
+            regex = new Regex(@"get|set", RegexOptions.Compiled);
+            Patterns.Add(TokenType.PROPERTY_KEYWORD, regex);
+            Tokens.Add(TokenType.PROPERTY_KEYWORD);
 
-            regex = new Regex(@"[a-zA-Z_][a-zA-Z0-9_]*(?!\s*\()", RegexOptions.Compiled);
-            Patterns.Add(TokenType.VARIABLE, regex);
-            Tokens.Add(TokenType.VARIABLE);
+            regex = new Regex(";", RegexOptions.Compiled);
+            Patterns.Add(TokenType.EOS, regex);
+            Tokens.Add(TokenType.EOS);
 
-            regex = new Regex(@"(?i)pi|e", RegexOptions.Compiled);
-            Patterns.Add(TokenType.CONSTANT, regex);
-            Tokens.Add(TokenType.CONSTANT);
+            regex = new Regex(":", RegexOptions.Compiled);
+            Patterns.Add(TokenType.INHERIT, regex);
+            Tokens.Add(TokenType.INHERIT);
 
-            regex = new Regex(@"{\s*", RegexOptions.Compiled);
-            Patterns.Add(TokenType.BRACEOPEN, regex);
-            Tokens.Add(TokenType.BRACEOPEN);
-
-            regex = new Regex(@"\s*}", RegexOptions.Compiled);
-            Patterns.Add(TokenType.BRACECLOSE, regex);
-            Tokens.Add(TokenType.BRACECLOSE);
-
-            regex = new Regex(@"\(\s*", RegexOptions.Compiled);
-            Patterns.Add(TokenType.BRACKETOPEN, regex);
-            Tokens.Add(TokenType.BRACKETOPEN);
-
-            regex = new Regex(@"\s*\)", RegexOptions.Compiled);
-            Patterns.Add(TokenType.BRACKETCLOSE, regex);
-            Tokens.Add(TokenType.BRACKETCLOSE);
-
-            regex = new Regex(@";", RegexOptions.Compiled);
-            Patterns.Add(TokenType.SEMICOLON, regex);
-            Tokens.Add(TokenType.SEMICOLON);
-
-            regex = new Regex(@"\+\+", RegexOptions.Compiled);
-            Patterns.Add(TokenType.PLUSPLUS, regex);
-            Tokens.Add(TokenType.PLUSPLUS);
-
-            regex = new Regex(@"--", RegexOptions.Compiled);
-            Patterns.Add(TokenType.MINUSMINUS, regex);
-            Tokens.Add(TokenType.MINUSMINUS);
-
-            regex = new Regex(@"\|\|", RegexOptions.Compiled);
-            Patterns.Add(TokenType.PIPEPIPE, regex);
-            Tokens.Add(TokenType.PIPEPIPE);
-
-            regex = new Regex(@"&&", RegexOptions.Compiled);
-            Patterns.Add(TokenType.AMPAMP, regex);
-            Tokens.Add(TokenType.AMPAMP);
-
-            regex = new Regex(@"&(?!&)", RegexOptions.Compiled);
-            Patterns.Add(TokenType.AMP, regex);
-            Tokens.Add(TokenType.AMP);
-
-            regex = new Regex(@"\^", RegexOptions.Compiled);
-            Patterns.Add(TokenType.POWER, regex);
-            Tokens.Add(TokenType.POWER);
-
-            regex = new Regex(@"\+", RegexOptions.Compiled);
-            Patterns.Add(TokenType.PLUS, regex);
-            Tokens.Add(TokenType.PLUS);
-
-            regex = new Regex(@"-", RegexOptions.Compiled);
-            Patterns.Add(TokenType.MINUS, regex);
-            Tokens.Add(TokenType.MINUS);
-
-            regex = new Regex(@"=", RegexOptions.Compiled);
-            Patterns.Add(TokenType.EQUAL, regex);
-            Tokens.Add(TokenType.EQUAL);
-
-            regex = new Regex(@":=", RegexOptions.Compiled);
-            Patterns.Add(TokenType.ASSIGN, regex);
-            Tokens.Add(TokenType.ASSIGN);
-
-            regex = new Regex(@"!=|<>", RegexOptions.Compiled);
-            Patterns.Add(TokenType.NOTEQUAL, regex);
-            Tokens.Add(TokenType.NOTEQUAL);
-
-            regex = new Regex(@"!", RegexOptions.Compiled);
-            Patterns.Add(TokenType.NOT, regex);
-            Tokens.Add(TokenType.NOT);
-
-            regex = new Regex(@"\*", RegexOptions.Compiled);
-            Patterns.Add(TokenType.ASTERIKS, regex);
-            Tokens.Add(TokenType.ASTERIKS);
-
-            regex = new Regex(@"/", RegexOptions.Compiled);
-            Patterns.Add(TokenType.SLASH, regex);
-            Tokens.Add(TokenType.SLASH);
-
-            regex = new Regex(@"%", RegexOptions.Compiled);
-            Patterns.Add(TokenType.PERCENT, regex);
-            Tokens.Add(TokenType.PERCENT);
-
-            regex = new Regex(@"\?", RegexOptions.Compiled);
-            Patterns.Add(TokenType.QUESTIONMARK, regex);
-            Tokens.Add(TokenType.QUESTIONMARK);
-
-            regex = new Regex(@",", RegexOptions.Compiled);
+            regex = new Regex(",", RegexOptions.Compiled);
             Patterns.Add(TokenType.COMMA, regex);
             Tokens.Add(TokenType.COMMA);
 
-            regex = new Regex(@"<=", RegexOptions.Compiled);
-            Patterns.Add(TokenType.LESSEQUAL, regex);
-            Tokens.Add(TokenType.LESSEQUAL);
+            regex = new Regex(@"=", RegexOptions.Compiled);
+            Patterns.Add(TokenType.ASSIGN, regex);
+            Tokens.Add(TokenType.ASSIGN);
 
-            regex = new Regex(@">=", RegexOptions.Compiled);
-            Patterns.Add(TokenType.GREATEREQUAL, regex);
-            Tokens.Add(TokenType.GREATEREQUAL);
+            regex = new Regex(@"{", RegexOptions.Compiled);
+            Patterns.Add(TokenType.BRACEOPEN, regex);
+            Tokens.Add(TokenType.BRACEOPEN);
 
-            regex = new Regex(@"<(?!>)", RegexOptions.Compiled);
-            Patterns.Add(TokenType.LESSTHAN, regex);
-            Tokens.Add(TokenType.LESSTHAN);
+            regex = new Regex(@"}", RegexOptions.Compiled);
+            Patterns.Add(TokenType.BRACECLOSE, regex);
+            Tokens.Add(TokenType.BRACECLOSE);
 
-            regex = new Regex(@">", RegexOptions.Compiled);
-            Patterns.Add(TokenType.GREATERTHAN, regex);
-            Tokens.Add(TokenType.GREATERTHAN);
+            regex = new Regex(@"\(", RegexOptions.Compiled);
+            Patterns.Add(TokenType.BRACKETOPEN, regex);
+            Tokens.Add(TokenType.BRACKETOPEN);
 
-            regex = new Regex(@":", RegexOptions.Compiled);
-            Patterns.Add(TokenType.COLON, regex);
-            Tokens.Add(TokenType.COLON);
+            regex = new Regex(@"\)", RegexOptions.Compiled);
+            Patterns.Add(TokenType.BRACKETCLOSE, regex);
+            Tokens.Add(TokenType.BRACKETCLOSE);
+
+            regex = new Regex(@"\[", RegexOptions.Compiled);
+            Patterns.Add(TokenType.SQUAREOPEN, regex);
+            Tokens.Add(TokenType.SQUAREOPEN);
+
+            regex = new Regex(@"\]", RegexOptions.Compiled);
+            Patterns.Add(TokenType.SQUARECLOSE, regex);
+            Tokens.Add(TokenType.SQUARECLOSE);
+
+            regex = new Regex(@"([a-zA-Z0-9_]+(\.)?)+", RegexOptions.Compiled);
+            Patterns.Add(TokenType.NAMESPACE_REFERENCE, regex);
+            Tokens.Add(TokenType.NAMESPACE_REFERENCE);
+
+            regex = new Regex(@"([a-zA-Z0-9_.\[\]]+)(?=(\s+[a-zA-Z_]))", RegexOptions.Compiled);
+            Patterns.Add(TokenType.TYPE, regex);
+            Tokens.Add(TokenType.TYPE);
+
+            regex = new Regex(@"[a-zA-Z0-9_]+", RegexOptions.Compiled);
+            Patterns.Add(TokenType.IDENTIFIER, regex);
+            Tokens.Add(TokenType.IDENTIFIER);
 
             regex = new Regex(@"^$", RegexOptions.Compiled);
             Patterns.Add(TokenType.EOF, regex);
             Tokens.Add(TokenType.EOF);
 
-            regex = new Regex(@"\s+", RegexOptions.Compiled);
-            Patterns.Add(TokenType.WHITESPACE, regex);
-            Tokens.Add(TokenType.WHITESPACE);
+            regex = new Regex(@"[\s\n\t]+", RegexOptions.Compiled);
+            Patterns.Add(TokenType.WS, regex);
+            Tokens.Add(TokenType.WS);
+
+            regex = new Regex(@"//[^\n]*\n?", RegexOptions.Compiled);
+            Patterns.Add(TokenType.LINECOMMENT, regex);
+            Tokens.Add(TokenType.LINECOMMENT);
+
+            regex = new Regex(@"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/", RegexOptions.Compiled);
+            Patterns.Add(TokenType.COMMENTBLOCK, regex);
+            Tokens.Add(TokenType.COMMENTBLOCK);
+
+            regex = new Regex(@"#region[^\n]*\n?", RegexOptions.Compiled);
+            Patterns.Add(TokenType.REGIONCOMMENT, regex);
+            Tokens.Add(TokenType.REGIONCOMMENT);
+
+            regex = new Regex(@"#endregion[^\n]*\n?", RegexOptions.Compiled);
+            Patterns.Add(TokenType.ENDREGIONCOMMENT, regex);
+            Tokens.Add(TokenType.ENDREGIONCOMMENT);
+
+            regex = new Regex(@"if[^{};]+", RegexOptions.Compiled);
+            Patterns.Add(TokenType.IF_CONDITION, regex);
+            Tokens.Add(TokenType.IF_CONDITION);
+
+            regex = new Regex(@"while[^{};]+", RegexOptions.Compiled);
+            Patterns.Add(TokenType.WHILE_LOOP, regex);
+            Tokens.Add(TokenType.WHILE_LOOP);
+
+            regex = new Regex(@"foreach[^{};]+", RegexOptions.Compiled);
+            Patterns.Add(TokenType.FOREACH_LOOP, regex);
+            Tokens.Add(TokenType.FOREACH_LOOP);
+
+            regex = new Regex(@"for[^)]+\)", RegexOptions.Compiled);
+            Patterns.Add(TokenType.FOR_LOOP, regex);
+            Tokens.Add(TokenType.FOR_LOOP);
+
+            regex = new Regex(@"[^\s\n\t{};]*[^{};\n]+", RegexOptions.Compiled);
+            Patterns.Add(TokenType.ANYTHING, regex);
+            Tokens.Add(TokenType.ANYTHING);
 
 
         }
@@ -351,66 +327,59 @@ namespace Generated
 
             //Non terminal tokens:
             Start   = 2,
-            Statements= 3,
-            Function= 4,
-            PrimaryExpression= 5,
-            ParenthesizedExpression= 6,
-            UnaryExpression= 7,
-            PowerExpression= 8,
-            MultiplicativeExpression= 9,
-            AdditiveExpression= 10,
-            ConcatEpression= 11,
-            RelationalExpression= 12,
-            EqualityExpression= 13,
-            ConditionalAndExpression= 14,
-            ConditionalOrExpression= 15,
-            AssignmentExpression= 16,
-            Expression= 17,
-            Params  = 18,
-            Literal = 19,
-            IntegerLiteral= 20,
-            RealLiteral= 21,
-            StringLiteral= 22,
-            Variable= 23,
+            Program = 3,
+            Usings  = 4,
+            UsingStatement= 5,
+            Namespace= 6,
+            NamespaceBody= 7,
+            ClassDeclaration= 8,
+            ClassBody= 9,
+            Declaration= 10,
+            Assigment= 11,
+            Property= 12,
+            TypedIndexer= 13,
+            Method  = 14,
+            CodeBlock= 15,
+            Statements= 16,
+            Statement= 17,
+            ParamDeclarations= 18,
+            TypedParameter= 19,
+            SimpleStatement= 20,
+            IfStatement= 21,
+            ForeachStatement= 22,
+            ForStatement= 23,
 
             //Terminal tokens:
-            BOOLEANLITERAL= 24,
-            DECIMALINTEGERLITERAL= 25,
-            REALLITERAL= 26,
-            HEXINTEGERLITERAL= 27,
-            STRINGLITERAL= 28,
-            FUNCTION= 29,
-            VARIABLE= 30,
-            CONSTANT= 31,
-            BRACEOPEN= 32,
-            BRACECLOSE= 33,
-            BRACKETOPEN= 34,
-            BRACKETCLOSE= 35,
-            SEMICOLON= 36,
-            PLUSPLUS= 37,
-            MINUSMINUS= 38,
-            PIPEPIPE= 39,
-            AMPAMP  = 40,
-            AMP     = 41,
-            POWER   = 42,
-            PLUS    = 43,
-            MINUS   = 44,
-            EQUAL   = 45,
-            ASSIGN  = 46,
-            NOTEQUAL= 47,
-            NOT     = 48,
-            ASTERIKS= 49,
-            SLASH   = 50,
-            PERCENT = 51,
-            QUESTIONMARK= 52,
-            COMMA   = 53,
-            LESSEQUAL= 54,
-            GREATEREQUAL= 55,
-            LESSTHAN= 56,
-            GREATERTHAN= 57,
-            COLON   = 58,
-            EOF     = 59,
-            WHITESPACE= 60
+            MODIFIER_KEYWORD= 24,
+            PARTIAL_KEYWORD= 25,
+            USING_KEYWORD= 26,
+            NAMESPACE_KEYWORD= 27,
+            CLASS_KEYWORD= 28,
+            PROPERTY_KEYWORD= 29,
+            EOS     = 30,
+            INHERIT = 31,
+            COMMA   = 32,
+            ASSIGN  = 33,
+            BRACEOPEN= 34,
+            BRACECLOSE= 35,
+            BRACKETOPEN= 36,
+            BRACKETCLOSE= 37,
+            SQUAREOPEN= 38,
+            SQUARECLOSE= 39,
+            NAMESPACE_REFERENCE= 40,
+            TYPE    = 41,
+            IDENTIFIER= 42,
+            EOF     = 43,
+            WS      = 44,
+            LINECOMMENT= 45,
+            COMMENTBLOCK= 46,
+            REGIONCOMMENT= 47,
+            ENDREGIONCOMMENT= 48,
+            IF_CONDITION= 49,
+            WHILE_LOOP= 50,
+            FOREACH_LOOP= 51,
+            FOR_LOOP= 52,
+            ANYTHING= 53
     }
 
     public class Token

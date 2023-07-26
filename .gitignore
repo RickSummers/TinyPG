@@ -114,3 +114,5 @@ UpgradeLog*.XML
 /TinyPG/Examples/assembly.dll
 /TinyPG/Examples/errors.txt
 /TinyPG/Examples/assembly
+
+.vs

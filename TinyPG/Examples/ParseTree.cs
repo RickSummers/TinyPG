@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-//#nullable disable
 
-namespace Generated
+
+namespace TinyPG
 {
     #region ParseTree
     [Serializable]
@@ -183,68 +183,68 @@ namespace Generated
                 case TokenType.Start:
                     Value = EvalStart(tree, paramlist);
                     break;
+                case TokenType.Program:
+                    Value = EvalProgram(tree, paramlist);
+                    break;
+                case TokenType.Usings:
+                    Value = EvalUsings(tree, paramlist);
+                    break;
+                case TokenType.UsingStatement:
+                    Value = EvalUsingStatement(tree, paramlist);
+                    break;
+                case TokenType.Namespace:
+                    Value = EvalNamespace(tree, paramlist);
+                    break;
+                case TokenType.NamespaceBody:
+                    Value = EvalNamespaceBody(tree, paramlist);
+                    break;
+                case TokenType.ClassDeclaration:
+                    Value = EvalClassDeclaration(tree, paramlist);
+                    break;
+                case TokenType.ClassBody:
+                    Value = EvalClassBody(tree, paramlist);
+                    break;
+                case TokenType.Declaration:
+                    Value = EvalDeclaration(tree, paramlist);
+                    break;
+                case TokenType.Assigment:
+                    Value = EvalAssigment(tree, paramlist);
+                    break;
+                case TokenType.Property:
+                    Value = EvalProperty(tree, paramlist);
+                    break;
+                case TokenType.TypedIndexer:
+                    Value = EvalTypedIndexer(tree, paramlist);
+                    break;
+                case TokenType.Method:
+                    Value = EvalMethod(tree, paramlist);
+                    break;
+                case TokenType.CodeBlock:
+                    Value = EvalCodeBlock(tree, paramlist);
+                    break;
                 case TokenType.Statements:
                     Value = EvalStatements(tree, paramlist);
                     break;
-                case TokenType.Function:
-                    Value = EvalFunction(tree, paramlist);
+                case TokenType.Statement:
+                    Value = EvalStatement(tree, paramlist);
                     break;
-                case TokenType.PrimaryExpression:
-                    Value = EvalPrimaryExpression(tree, paramlist);
+                case TokenType.ParamDeclarations:
+                    Value = EvalParamDeclarations(tree, paramlist);
                     break;
-                case TokenType.ParenthesizedExpression:
-                    Value = EvalParenthesizedExpression(tree, paramlist);
+                case TokenType.TypedParameter:
+                    Value = EvalTypedParameter(tree, paramlist);
                     break;
-                case TokenType.UnaryExpression:
-                    Value = EvalUnaryExpression(tree, paramlist);
+                case TokenType.SimpleStatement:
+                    Value = EvalSimpleStatement(tree, paramlist);
                     break;
-                case TokenType.PowerExpression:
-                    Value = EvalPowerExpression(tree, paramlist);
+                case TokenType.IfStatement:
+                    Value = EvalIfStatement(tree, paramlist);
                     break;
-                case TokenType.MultiplicativeExpression:
-                    Value = EvalMultiplicativeExpression(tree, paramlist);
+                case TokenType.ForeachStatement:
+                    Value = EvalForeachStatement(tree, paramlist);
                     break;
-                case TokenType.AdditiveExpression:
-                    Value = EvalAdditiveExpression(tree, paramlist);
-                    break;
-                case TokenType.ConcatEpression:
-                    Value = EvalConcatEpression(tree, paramlist);
-                    break;
-                case TokenType.RelationalExpression:
-                    Value = EvalRelationalExpression(tree, paramlist);
-                    break;
-                case TokenType.EqualityExpression:
-                    Value = EvalEqualityExpression(tree, paramlist);
-                    break;
-                case TokenType.ConditionalAndExpression:
-                    Value = EvalConditionalAndExpression(tree, paramlist);
-                    break;
-                case TokenType.ConditionalOrExpression:
-                    Value = EvalConditionalOrExpression(tree, paramlist);
-                    break;
-                case TokenType.AssignmentExpression:
-                    Value = EvalAssignmentExpression(tree, paramlist);
-                    break;
-                case TokenType.Expression:
-                    Value = EvalExpression(tree, paramlist);
-                    break;
-                case TokenType.Params:
-                    Value = EvalParams(tree, paramlist);
-                    break;
-                case TokenType.Literal:
-                    Value = EvalLiteral(tree, paramlist);
-                    break;
-                case TokenType.IntegerLiteral:
-                    Value = EvalIntegerLiteral(tree, paramlist);
-                    break;
-                case TokenType.RealLiteral:
-                    Value = EvalRealLiteral(tree, paramlist);
-                    break;
-                case TokenType.StringLiteral:
-                    Value = EvalStringLiteral(tree, paramlist);
-                    break;
-                case TokenType.Variable:
-                    Value = EvalVariable(tree, paramlist);
+                case TokenType.ForStatement:
+                    Value = EvalForStatement(tree, paramlist);
                     break;
 
                 default:
@@ -259,6 +259,97 @@ namespace Generated
             return "Could not interpret input; no semantics implemented.";
         }
 
+        protected virtual object EvalProgram(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalUsings(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalUsingStatement(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalNamespace(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalNamespaceBody(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalClassDeclaration(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalClassBody(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalDeclaration(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalAssigment(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalProperty(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalTypedIndexer(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalMethod(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
+        protected virtual object EvalCodeBlock(ParseTree tree, params object[] paramlist)
+        {
+            foreach (var node in Nodes)
+                node.Eval(tree, paramlist);
+            return null;
+        }
+
         protected virtual object EvalStatements(ParseTree tree, params object[] paramlist)
         {
             foreach (var node in Nodes)
@@ -266,140 +357,49 @@ namespace Generated
             return null;
         }
 
-        protected virtual object EvalFunction(ParseTree tree, params object[] paramlist)
+        protected virtual object EvalStatement(ParseTree tree, params object[] paramlist)
         {
             foreach (var node in Nodes)
                 node.Eval(tree, paramlist);
             return null;
         }
 
-        protected virtual object EvalPrimaryExpression(ParseTree tree, params object[] paramlist)
+        protected virtual object EvalParamDeclarations(ParseTree tree, params object[] paramlist)
         {
             foreach (var node in Nodes)
                 node.Eval(tree, paramlist);
             return null;
         }
 
-        protected virtual object EvalParenthesizedExpression(ParseTree tree, params object[] paramlist)
+        protected virtual object EvalTypedParameter(ParseTree tree, params object[] paramlist)
         {
             foreach (var node in Nodes)
                 node.Eval(tree, paramlist);
             return null;
         }
 
-        protected virtual object EvalUnaryExpression(ParseTree tree, params object[] paramlist)
+        protected virtual object EvalSimpleStatement(ParseTree tree, params object[] paramlist)
         {
             foreach (var node in Nodes)
                 node.Eval(tree, paramlist);
             return null;
         }
 
-        protected virtual object EvalPowerExpression(ParseTree tree, params object[] paramlist)
+        protected virtual object EvalIfStatement(ParseTree tree, params object[] paramlist)
         {
             foreach (var node in Nodes)
                 node.Eval(tree, paramlist);
             return null;
         }
 
-        protected virtual object EvalMultiplicativeExpression(ParseTree tree, params object[] paramlist)
+        protected virtual object EvalForeachStatement(ParseTree tree, params object[] paramlist)
         {
             foreach (var node in Nodes)
                 node.Eval(tree, paramlist);
             return null;
         }
 
-        protected virtual object EvalAdditiveExpression(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalConcatEpression(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalRelationalExpression(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalEqualityExpression(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalConditionalAndExpression(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalConditionalOrExpression(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalAssignmentExpression(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalExpression(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalParams(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalLiteral(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalIntegerLiteral(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalRealLiteral(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalStringLiteral(ParseTree tree, params object[] paramlist)
-        {
-            foreach (var node in Nodes)
-                node.Eval(tree, paramlist);
-            return null;
-        }
-
-        protected virtual object EvalVariable(ParseTree tree, params object[] paramlist)
+        protected virtual object EvalForStatement(ParseTree tree, params object[] paramlist)
         {
             foreach (var node in Nodes)
                 node.Eval(tree, paramlist);
